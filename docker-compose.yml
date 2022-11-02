@@ -1,0 +1,20 @@
+version: '3.4'
+
+services:
+  frontend:
+    container_name: frontend
+    build: ./qubgrademe-frontend
+    ports:
+      - "9000:80"
+
+  sort:
+    container_name: sort
+    build: ././qubgrademe-sortmodules
+    ports:
+      - "9001:80"
+
+  maxmin:
+    container_name: maxmin
+    build: ././qubgrademe-maxmin
+    ports:
+      - "9002:80"

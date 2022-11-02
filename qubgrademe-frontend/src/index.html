@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>QUBGrader</title>
+
+<script type="text/javascript">
+
+let maxminURL = "http://localhost:9002/";
+let sortedModulesURL = "http://localhost:9001/";
+
+function displayTotal()
+{
+    document.getElementById('output-text').value = 'Total marks = ' + total_marks;
+
+}
+
+function displayMaxMin(max_module,min_module)
+{
+    document.getElementById('output-text').value = 'Highest scoring module = ' + max_module
+    + '\nLowest scoring module = ' + min_module;
+
+}
+
+function displaySortedModules(sorted_modules)
+{
+    document.getElementById('output-text').value = sorted_modules;
+
+}
+
+function clearText()
+{
+    document.getElementById('module_1').value = '';
+    document.getElementById('module_2').value = '';
+    document.getElementById('module_3').value = '';
+    document.getElementById('module_4').value = '';
+    document.getElementById('module_5').value = '';
+
+    document.getElementById('mark_1').value = '';
+    document.getElementById('mark_2').value = '';
+    document.getElementById('mark_3').value = '';
+    document.getElementById('mark_4').value = '';
+    document.getElementById('mark_5').value = '';
+
+    document.getElementById('output-text').value = '';
+
+}
+
+function getMaxMin()
+{
+  let module_1 = document.getElementById('module_1').value
+  let module_2 = document.getElementById('module_2').value
+  let module_3 = document.getElementById('module_3').value
+  let module_4 = document.getElementById('module_4').value
+  let module_5 = document.getElementById('module_5').value
+
+  let mark_1 = document.getElementById('mark_1').value
+  let mark_2 = document.getElementById('mark_2').value
+  let mark_3 = document.getElementById('mark_3').value
+  let mark_4 = document.getElementById('mark_4').value
+  let mark_5 = document.getElementById('mark_5').value
+
+  let xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+          let response = this.response
+          let max_module = response['max_module'];
+          let min_module = response['min_module'];
+          displayMaxMin(max_module,min_module);
+      }
+  };
+  xhttp.open("GET",maxminURL+"?module_1=" + module_1 + "&mark_1=" + mark_1 + "&module_2=" + module_2 + "&mark_2=" + mark_2
+  + "&module_3=" + module_3 + "&mark_3=" + mark_3 + "&module_4=" + module_4 + "&mark_4=" + mark_4
+  + "&module_5=" + module_5 + "&mark_5=" + mark_5);
+  xhttp.send();
+  return;
+}
+
+function getSortedModules()
+{
+  let module_1 = document.getElementById('module_1').value
+  let module_2 = document.getElementById('module_2').value
+  let module_3 = document.getElementById('module_3').value
+  let module_4 = document.getElementById('module_4').value
+  let module_5 = document.getElementById('module_5').value
+
+  let mark_1 = document.getElementById('mark_1').value
+  let mark_2 = document.getElementById('mark_2').value
+  let mark_3 = document.getElementById('mark_3').value
+  let mark_4 = document.getElementById('mark_4').value
+  let mark_5 = document.getElementById('mark_5').value
+
+  let xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var j = JSON.parse(this.response);
+      let sorted_modules_returned = j.sorted_modules;
+      let sorted_modules = '';
+      for (let i = 0; i < sorted_modules_returned.length; i++) {
+        sorted_modules += sorted_modules_returned[i]['module'] + ' - ' + sorted_modules_returned[i]['marks'] + '\r\n';
+      }
+      displaySortedModules(sorted_modules);
+    }
+  };
+  xhttp.open("GET",sortedModulesURL+"?module_1=" + module_1 + "&mark_1=" + mark_1 + "&module_2=" + module_2 + "&mark_2=" + mark_2
+  + "&module_3=" + module_3 + "&mark_3=" + mark_3 + "&module_4=" + module_4 + "&mark_4=" + mark_4
+  + "&module_5=" + module_5 + "&mark_5=" + mark_5);
+  xhttp.send();
+  return;
+}
+
+
+</script>
+
+<style type="text/css">
+body  {
+    font-size: 150%;
+    font-family: monospace;
+}
+
+#logo
+{
+    font-family: Calibri, sans-serif;
+    font-weight: lighter;
+    color: #505050;
+    margin: 0.5em;
+}
+
+#qga
+{
+    text-align: center;
+    margin-top: 1em;
+}
+
+.display-module {
+    font-size: 90%;
+    color: black;
+    background-color: white;
+    padding: 0.2em;
+    margin: 0.2em;
+    font-family: monospace;
+    letter-spacing: 0.1em;
+    width: 480px;
+
+}
+
+.display-mark{
+    font-size: 90%;
+    color: black;
+    background-color: white;
+    padding: 0.2em;
+    margin: 0.2em;
+    font-family: monospace;
+    letter-spacing: 0.1em;
+    width: 90px;
+
+}
+
+.display-output {
+    font-size: 90%;
+    color: white;
+    background-color: black;
+    padding: 0.2em;
+    margin: 0.2em;
+    font-family: monospace;
+    letter-spacing: 0.1em;
+    width: 600px;
+
+}
+
+.qgabutton-active {
+    background-color: green;
+    color: white;
+    padding: 0px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    margin: 4px 2px;
+    cursor: pointer;
+    height: 40px;
+    width: 400px;
+}
+
+.qgabutton-inactive {
+    background-color: gray;
+    color: white;
+    padding: 0px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    margin: 4px 2px;
+    cursor: pointer;
+    height: 40px;
+    width: 400px;
+}
+
+.qgabutton-clear {
+    background-color: red;
+    color: white;
+    padding: 0px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    margin: 4px 2px;
+    cursor: pointer;
+    height: 40px;
+    width: 400px;
+}
+
+</style>
+
+</head>
+<body>
+<div id="qga">
+    <div id="logo">
+        QUB GradeMe App
+    </div>
+    <div>
+        <input class="display-module" type="text" id="module_1" name="module_1" placeholder="Module 1">
+        <input class="display-mark"  type="text" id="mark_1" name="mark_1" placeholder="Mark 1"></br>
+        <input class="display-module" type="text" id="module_2" name="module_2" placeholder="Module 2">
+        <input class="display-mark"  type="text" id="mark_2" name="mark_2" placeholder="Mark 2"></br>
+        <input class="display-module" type="text" id="module_3" name="module_3" placeholder="Module 3">
+        <input class="display-mark"  type="text" id="mark_3" name="mark_3" placeholder="Mark 3"></br>
+        <input class="display-module" type="text" id="module_4" name="module_4" placeholder="Module 4">
+        <input class="display-mark"  type="text" id="mark_4" name="mark_4" placeholder="Mark 4"></br>
+        <input class="display-module" type="text" id="module_5" name="module_5" placeholder="Module 5">
+        <input class="display-mark"  type="text" id="mark_5" name="mark_5" placeholder="Mark 5">
+    </div>
+    <div>
+        <textarea class="display-output" id="output-text" rows="5" cols="35" readonly=1 placeholder="Results here..." value="">
+        </textarea>
+    </div>
+    <div>
+        <button class="qgabutton-active" onclick="getMaxMin();">Highest & Lowest Scoring Modules</button>
+    </div>
+    <div>
+        <button class="qgabutton-active" onclick="getSortedModules();">Sort Modules</button>
+    </div>
+    <div>
+        <button class="qgabutton-inactive" onclick="getTotal();">Total Marks</button>
+    </div>
+    <div>
+        <button class="qgabutton-inactive" onclick="getClassification();">Classify Grade</button>
+    </div>
+    <div>
+        <button class="qgabutton-inactive" onclick="getFeature1();">???</button>
+    </div>
+    <div>
+        <button class="qgabutton-inactive" onclick="getFeature2();">???</button>
+    </div>
+    <div>
+        <button class="qgabutton-clear" onclick="clearText();">Clear</button>
+    </div>
+
+</div>
+</body>
+
+<script type="text/javascript">
+</script>
+
+</html>
