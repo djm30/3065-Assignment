@@ -9,12 +9,12 @@ services:
 
   sort:
     container_name: sort
-    build: ././qubgrademe-sortmodules
+    build: ./qubgrademe-sortmodules
     ports:
       - "9001:80"
 
   maxmin:
     container_name: maxmin
-    build: ././qubgrademe-maxmin
+    build: ./qubgrademe-maxmin
     ports:
       - "9002:80"
