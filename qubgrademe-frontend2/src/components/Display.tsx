@@ -12,9 +12,11 @@ const getMinMaxString = (result: MinMaxResponse): string => {
   `;
 };
 const getSortedString = (result: SortedResponse): string => {
-  return `
-  
-  `;
+  let s = "";
+  result.sorted_modules.forEach((x) => {
+    s += x.module + "-" + x.marks + "\n";
+  });
+  return s;
 };
 
 const Display = ({ result }: Props) => {
