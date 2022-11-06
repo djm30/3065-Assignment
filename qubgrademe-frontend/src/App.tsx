@@ -106,7 +106,7 @@ function App() {
           <Button onClick={onSortClick}>Sort Modules</Button>
           <Button>Total Marks</Button>
           <Button>Classify Grade</Button>
-          <Button>???</Button>
+          <Button>Marks Needed for Next Grade</Button>
           <Button>???</Button>
           <Button className="col-span-2 bg-red-400 hover:bg-red-500">
             Clear
