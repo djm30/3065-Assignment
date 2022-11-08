@@ -5,7 +5,8 @@ require('functions.inc.php');
 
 $output = array(
 	"error" => false,
-  "modules" => "",
+	"errorMessage" => "",
+  	"modules" => "",
 	"marks" => 0,
 	"max_module" => "",
 	"min_module" => ""
