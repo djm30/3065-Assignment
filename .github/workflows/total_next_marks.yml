@@ -20,16 +20,18 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: qubgrademe-totalmarks_marksfornext/
+#     defaults:
+#       run:
+#         working-directory: qubgrademe-totalmarks_marksfornext/
         
     strategy:
       matrix:
         node-version: [14.x, 16.x, 18.x]
 
     steps:
-    - run: ls
+    - name: "test"
+      working-directory: ./qubgrademe-totalmarks_marksfornext
+      run: ls
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
