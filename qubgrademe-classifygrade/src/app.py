@@ -2,7 +2,13 @@ from flask import Flask, request
 from classify import classify
 from overall_mark import overall_mark, marks_to_int
 from validation import validate
+from datetime import datetime
+import time
+import os
 app = Flask(__name__)
+
+start_time = time.time()
+port = os.environ.get('PORT') if os.environ.get('PORT') is not None else 5004
 
 @app.route("/", methods=["GET"])
 def sum():
@@ -49,7 +55,12 @@ def sum():
 
 app.route("/health", methods=["GET"])
 def health():
-    return "Healthy"
+    data = {
+        "uptime": time.time() - start_time,
+        "message": "Ok",
+        "date": datetime.today()
+    }
+    return data, 200
 
 if __name__ == "__main__":
-    app.run(port=9004)
+    app.run(port=port)

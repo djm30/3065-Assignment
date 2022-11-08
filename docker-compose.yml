@@ -18,3 +18,29 @@ services:
     build: ./qubgrademe-maxmin
     ports:
       - "9002:80"
+    
+  total_next:
+    container_name: total_next
+    build: ./qubgrademe-totalmarks_marksfornext
+    ports:
+      - "9003:80"
+    
+  classify:
+    container_name: classify
+    build: ./qubgrademe-classifygrade
+    ports:
+      - "9004:80"
+
+  portainer:
+    image: portainer/portainer-ce
+    container_name: portainer_3065
+    restart: always
+    ports:
+      - "8080:8000"
+      - "9010:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+volumes:
+  portainer_data:
