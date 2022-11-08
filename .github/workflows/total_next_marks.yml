@@ -22,7 +22,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: qubgrademe-totalmarks_marksfornext
+        working-directory: qubgrademe-totalmarks_marksfornext/
         
     strategy:
       matrix:
