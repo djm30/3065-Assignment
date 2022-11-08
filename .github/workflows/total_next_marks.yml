@@ -31,7 +31,7 @@ jobs:
     steps:
     - name: "test"
 #       working-directory: ./qubgrademe-totalmarks_marksfornext
-      run: ls
+      run: pwd
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
