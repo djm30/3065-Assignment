@@ -32,7 +32,7 @@ def sum():
         "errorMessage" : "",
         "modules": modules,
         "marks": marks,
-        "grade" : None
+        "grade" : ""
     }
 
     success, message = validate(modules, marks)

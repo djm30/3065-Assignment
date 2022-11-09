@@ -1,0 +1,5 @@
+{
+    "python.testing.pytestArgs": ["qubgrademe-classifygrade"],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
+}
