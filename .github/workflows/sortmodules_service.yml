@@ -42,7 +42,7 @@ jobs:
       run: composer install --prefer-dist --no-progress
 
     - name: Run PHP Server Locally
-      run:  nohup php -t src/ -S 127.0.0.1:9002 > phpd.log 2>&1 &
+      run:  nohup php -t src/ -S 127.0.0.1:9001 > phpd.log 2>&1 &
 
     - name: Run test suite
       run: composer run-script test
