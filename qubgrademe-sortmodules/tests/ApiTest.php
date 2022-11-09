@@ -23,7 +23,6 @@ class TestSortAPITest extends TestCase
         $response = $this->http->request("GET", "?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=68&mark_2=72&mark_3=62&mark_4=70&mark_5=60");
         $this->assertEquals(200, $response->getStatusCode());
         $responseData = json_decode($response->getBody(), true);
-        echo print_r($responseData);
         $this->assertEquals(false, $responseData["error"]);
         $this->assertEquals("", $responseData["errorMessage"]);
         $this->assertEquals(array("One", "Two", "Three", "Four", "Five"), $responseData["modules"]);
@@ -59,7 +58,6 @@ class TestSortAPITest extends TestCase
         $response = @$this->http->request("GET", "?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=68&mark_2=72&mark_3=62&mark_4=70&mark_5=");
         $this->assertEquals(400, $response->getStatusCode());
         $responseData = json_decode($response->getBody(), true);
-        echo print_r($responseData);
         $this->assertEquals(true, $responseData["error"]);
         $this->assertEquals("Please provide a valid integer for every entered module", $responseData["errorMessage"]);
         $this->assertEquals(array("One", "Two", "Three", "Four", "Five"), $responseData["modules"]);
