@@ -2,8 +2,9 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-type: application/json");
 require("functions.inc.php");
-require("validation.php");
-require("util.php");
+require("validation.inc.php");
+require("util.inc.php");
+
 
 $output = array(
 	"error" => false,

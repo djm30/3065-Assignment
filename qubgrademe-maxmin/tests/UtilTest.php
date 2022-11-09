@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . "/../src/util.php";
+require __DIR__ . "/../src/util.inc.php";
 
 use \PHPUnit\Framework\TestCase;
 

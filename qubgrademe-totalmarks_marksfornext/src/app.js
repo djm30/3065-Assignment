@@ -3,6 +3,7 @@ const total = require("./totalMarks");
 const { validate } = require("./validate");
 const marksForNext = require("./marksForNext");
 const convertAndRemoveNullMarksModules = require("./removeIncorrect");
+const { format } = require("date-fns");
 
 const app = express();
 
@@ -98,9 +99,9 @@ app.get("/next", (req, res) => {
 
 app.get("/health", (req, res) => {
     const data = {
-        uptime: process.uptime(),
+        date: format(new Date(), "yyyy-MM-dd HH:mm:ss.SSSS"),
         message: "Ok",
-        date: new Date(),
+        uptime: process.uptime(),
     };
     res.status(200).json(data);
 });

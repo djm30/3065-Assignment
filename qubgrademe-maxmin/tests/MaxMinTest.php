@@ -1,6 +1,6 @@
 <?php
 require __DIR__ . "/../src/functions.inc.php";
-require_once __DIR__ . "/../src/validation.php";
+require_once __DIR__ . "/../src/validation.inc.php";
 
 use \PHPUnit\Framework\TestCase;
 

@@ -8,7 +8,7 @@ import os
 app = Flask(__name__)
 
 start_time = time.time()
-port = os.environ.get('PORT') if os.environ.get('PORT') is not None else 5004
+port = int(os.environ.get('PORT')) if os.environ.get('PORT') is not None else 9004
 
 @app.route("/", methods=["GET"])
 def sum():
@@ -52,15 +52,15 @@ def sum():
 
     return response, 200 if success else 400
 
-
-app.route("/health", methods=["GET"])
+@app.route("/health", methods=["GET"])
 def health():
     data = {
-        "uptime": time.time() - start_time,
+        "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"),
         "message": "Ok",
-        "date": datetime.today()
+        "uptime": time.time() - start_time
+
     }
     return data, 200
 
 if __name__ == "__main__":
-    app.run(port=port)
+    app.run(port=port, host="0.0.0.0")
