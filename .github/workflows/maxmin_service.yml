@@ -41,5 +41,13 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
 
+    - name: Run PHP Server Locally
+      run: cd src && nohup php -s localhost:9002 -t foo/ bar.php > phpd.log 2>&1 &
+
+    - run: PHP_SERVER_PID=$!
+
     - name: Run test suite
       run: composer run-script test
+
+    - name: Close PHP Server
+      run: kill -3 $PHP_SERVER_PID
