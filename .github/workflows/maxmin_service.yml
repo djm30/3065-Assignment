@@ -42,7 +42,7 @@ jobs:
       run: composer install --prefer-dist --no-progress
 
     - name: Run PHP Server Locally
-      run: cd src && nohup php -s 127.0.0.1:9002 > phpd.log 2>&1 &
+      run:  nohup php -t src/ -S 127.0.0.1:9002 > phpd.log 2>&1 &
 
     - run: PHP_SERVER_PID=$!
 
