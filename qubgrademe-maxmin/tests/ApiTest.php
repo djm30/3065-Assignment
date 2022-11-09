@@ -10,14 +10,11 @@ class TestMaxMinAPITest extends TestCase
     protected function setUp(): void
     {
         $this->http = new Client(["base_uri" => "http://localhost:9002/"]);
-        exec("");
-        exec("PHP_SERVER_PID=$!");
     }
 
     protected function tearDown(): void
     {
         $this->http = null;
-        exec("kill -3 $PHP_SERVER_PID");
     }
 
     /** @test */
