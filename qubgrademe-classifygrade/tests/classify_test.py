@@ -1,5 +1,5 @@
 from src.classify import classify
-from src.classifications import Classifications
+
 
 
 class Test_classify():
