@@ -1,6 +1,7 @@
 {
     "name": "djm30/qubgrademe-maxmin",
     "description": "PHP Service for returning the maximum and minimum marks for a list of modules",
+    "license": "MIT",
     "scripts": {
         "test": "./vendor/bin/phpunit"
     },
