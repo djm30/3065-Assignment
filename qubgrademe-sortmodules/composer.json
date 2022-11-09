@@ -1,4 +1,6 @@
 {
+    "name": "djm30/qubgrademe-sortmodules",
+    "description": "PHP Service for sorting a list of modules by marks (descending) and returning them",
     "scripts": {
         "test": "./vendor/bin/phpunit"
     },
