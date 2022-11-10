@@ -27,6 +27,7 @@ const useFetch = (
                 console.log(e);
                 toast.error("An unknown error has occured");
             }
+            console.log(e);
         }
     };
 };

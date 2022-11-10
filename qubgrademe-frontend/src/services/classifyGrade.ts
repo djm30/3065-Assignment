@@ -1,12 +1,12 @@
 import fetch from "./fetch";
 import { ClassifyGradeResponse, Kinds } from "../types";
-
-const baseUrl = "http://localhost:9004/";
+import { ServiceURLS } from "./service_urls";
 
 export default async (
     modules: string[],
     marks: number[],
 ): Promise<ClassifyGradeResponse> => {
+    const baseUrl = ServiceURLS.getInstance().urls.classify;
     const response = await fetch<ClassifyGradeResponse>(
         baseUrl,
         modules,

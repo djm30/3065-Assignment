@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "./components/Button";
 import Container from "./components/Container";
 import Display from "./components/Display";
@@ -10,6 +10,8 @@ import getClassification from "./services/classifyGrade";
 import getMarksNeeded from "./services/marksForNext";
 import getMeanMark from "./services/meanMark";
 import { ToastContainer, toast } from "react-toastify";
+import { ServiceURLS } from "./services/service_urls";
+
 import "react-toastify/dist/ReactToastify.css";
 
 import {
@@ -36,6 +38,11 @@ function App() {
     const [mark3, setMark3] = useState<number>(NaN);
     const [mark4, setMark4] = useState<number>(NaN);
     const [mark5, setMark5] = useState<number>(NaN);
+
+    useEffect(() => {
+        // Initiating singleton
+        ServiceURLS.getInstance();
+    }, []);
 
     const [result, setResult] = useState<ResponseTypes>();
 

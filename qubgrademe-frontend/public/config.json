@@ -1,0 +1,10 @@
+{
+    "service_urls": {
+        "maxmin": "http://localhost:9002",
+        "sort": "http://localhost:9001",
+        "total": "http://localhost:9003/marks",
+        "next": "http://localhost:9003/next",
+        "classify": "http://localhost:9004",
+        "mean": "https://meanmark-service-development.azurewebsites.net/api/mean"
+    }
+}
