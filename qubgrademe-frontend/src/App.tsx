@@ -9,7 +9,7 @@ import getTotal from "./services/totalMarks";
 import getClassification from "./services/classifyGrade";
 import getMarksNeeded from "./services/marksForNext";
 import getMeanMark from "./services/meanMark";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import { ServiceURLS } from "./services/service_urls";
 
 import "react-toastify/dist/ReactToastify.css";
