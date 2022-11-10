@@ -29,7 +29,7 @@ public class MeanMark
     
     [FunctionName("MeanMark")]
     public  async Task<IActionResult> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Function, "get", Route = "mean")] HttpRequest req, ILogger log)
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "mean")] HttpRequest req, ILogger log)
     {
         log.LogInformation("Request received for mean mark");
 

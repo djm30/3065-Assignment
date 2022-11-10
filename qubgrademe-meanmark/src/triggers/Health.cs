@@ -16,7 +16,7 @@ public static class Health
 {
     [FunctionName("Health")]
     public static async Task<IActionResult> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Function, "get", Route = "health")] HttpRequest req, ILogger log)
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "health")] HttpRequest req, ILogger log)
     {
         log.LogInformation("Health Check Request Received");
 
