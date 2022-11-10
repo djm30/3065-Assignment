@@ -1,8 +1,23 @@
 import React, { useEffect } from "react";
-import { Kinds, MinMaxResponse, SortedResponse } from "../types";
+import {
+    ClassifyGradeResponse,
+    Kinds,
+    MarksForNextResponse,
+    MeanMarkResponse,
+    MinMaxResponse,
+    SortedResponse,
+    TotalMarksResponse,
+} from "../types";
 
 interface Props {
-    result: MinMaxResponse | SortedResponse | undefined;
+    result:
+        | MinMaxResponse
+        | SortedResponse
+        | TotalMarksResponse
+        | ClassifyGradeResponse
+        | MarksForNextResponse
+        | MeanMarkResponse
+        | undefined;
 }
 
 const getMinMaxString = (result: MinMaxResponse): string => {
@@ -15,9 +30,25 @@ const getMinMaxString = (result: MinMaxResponse): string => {
 const getSortedString = (result: SortedResponse): string => {
     let s = "\n";
     result.sorted_modules.forEach((x) => {
-        x.module ? (s += x.module + "-" + x.marks + "\n") : null;
+        x.module ? (s += x.module + " - " + x.marks + "\n") : null;
     });
     return s;
+};
+
+const getTotalString = (result: TotalMarksResponse): string => {
+    return `\nTotal Marks: ${result.total}`;
+};
+
+const getMarksForNextString = (result: MarksForNextResponse): string => {
+    return "\n" + result.marks_required;
+};
+
+const getClassificationString = (result: ClassifyGradeResponse): string => {
+    return `\nCurrent Grade: ${result.grade}`;
+};
+
+const getMeanString = (result: MeanMarkResponse): string => {
+    return `\nAverage Mark: ${result.mean}`;
 };
 
 const Display = ({ result }: Props) => {
@@ -31,6 +62,23 @@ const Display = ({ result }: Props) => {
         case Kinds.sort:
             displayString = getSortedString(result as SortedResponse);
             break;
+        case Kinds.total:
+            displayString = getTotalString(result as TotalMarksResponse);
+            break;
+        case Kinds.marksForNext:
+            displayString = getMarksForNextString(
+                result as MarksForNextResponse,
+            );
+            break;
+        case Kinds.classify:
+            displayString = getClassificationString(
+                result as ClassifyGradeResponse,
+            );
+            break;
+        case Kinds.mean:
+            displayString = getMeanString(result as MeanMarkResponse);
+            break;
+
         default:
             displayString = "";
             break;
@@ -39,7 +87,7 @@ const Display = ({ result }: Props) => {
     console.log(displayString);
     return (
         <textarea
-            className="w-4/5 p-4 text-center bg-neutral-900 rounded-lg focus:outline-none border-[0.1px] border-transparent hover:border-neutral-400  text-white transition-all"
+            className="w-4/5 p-4 text-lg text-center bg-neutral-800 rounded-md focus:outline-none border-[0.1px] border-transparent hover:border-neutral-400  text-white transition-all"
             readOnly={true}
             rows={5}
             cols={35}

@@ -3,14 +3,19 @@ from classify import classify
 from overall_mark import overall_mark, marks_to_int
 from validation import validate
 from datetime import datetime
+from flask_cors import CORS, cross_origin
 import time
 import os
+
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 start_time = time.time()
 port = int(os.environ.get('PORT')) if os.environ.get('PORT') is not None else 9004
 
 @app.route("/", methods=["GET"])
+@cross_origin()
 def sum():
     module1 = request.args.get("module_1")
     module2 = request.args.get("module_2")
@@ -53,6 +58,7 @@ def sum():
     return response, 200 if success else 400
 
 @app.route("/health", methods=["GET"])
+@cross_origin()
 def health():
     data = {
         "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"),

@@ -5,7 +5,24 @@ import Display from "./components/Display";
 import Module from "./components/Module";
 import getMaxMin from "./services/maxMin";
 import getSorted from "./services/sort";
-import { MinMaxResponse, SortedResponse } from "./types";
+import getTotal from "./services/totalMarks";
+import getClassification from "./services/classifyGrade";
+import getMarksNeeded from "./services/marksForNext";
+import getMeanMark from "./services/meanMark";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import {
+    ClassifyGradeResponse,
+    MarksForNextResponse,
+    MeanMarkResponse,
+    MinMaxResponse,
+    SortedResponse,
+    TotalMarksResponse,
+    ResponseTypes,
+    Kinds,
+} from "./types";
+import { useFetch } from "./hooks";
 
 function App() {
     const [module1, setModule1] = useState("");
@@ -20,111 +37,114 @@ function App() {
     const [mark4, setMark4] = useState<number>(NaN);
     const [mark5, setMark5] = useState<number>(NaN);
 
-    const [result, setResult] = useState<MinMaxResponse | SortedResponse>();
+    const [result, setResult] = useState<ResponseTypes>();
+
+    const fetch = useFetch(setResult);
+
+    const marks = [mark1, mark2, mark3, mark4, mark5];
+    const modules = [module1, module2, module3, module4, module5];
 
     const defaultOnClick = () => {};
 
     const onMinMaxClick = async () => {
-        const minMax = await getMaxMin(
-            module1,
-            module2,
-            module3,
-            module4,
-            module5,
-            mark1,
-            mark2,
-            mark3,
-            mark4,
-            mark5,
-        );
-        setResult(minMax);
+        await fetch(getMaxMin, modules, marks);
     };
+
     const onSortClick = async () => {
-        const sorted = await getSorted(
-            module1,
-            module2,
-            module3,
-            module4,
-            module5,
-            mark1,
-            mark2,
-            mark3,
-            mark4,
-            mark5,
-        );
-        setResult(sorted);
+        await fetch(getSorted, modules, marks);
+    };
+
+    const onTotalClick = async () => {
+        await fetch(getTotal, modules, marks);
+    };
+
+    const onClassifyClick = async () => {
+        await fetch(getClassification, modules, marks);
+    };
+
+    const onMarksNeededClick = async () => {
+        await fetch(getMarksNeeded, modules, marks);
+    };
+
+    const onMeanClick = async () => {
+        await fetch(getMeanMark, modules, marks);
     };
 
     return (
-        <div className="bg-neutral-800 h-screen">
-            {/* HEADER */}
-            <h1 className="text-3xl text-white font-light text-center pt-10">
-                QUB GradeMe App
-            </h1>
-            {/* TEXT FIELDS */}
-            <Container className="mt-10 flex flex-col items-center space-y-2">
-                <Module
-                    value={module1}
-                    setValue={setModule1}
-                    markValue={mark1}
-                    setMarkValue={setMark1}
-                />
-                <Module
-                    value={module2}
-                    setValue={setModule2}
-                    markValue={mark2}
-                    setMarkValue={setMark2}
-                />
-                <Module
-                    value={module3}
-                    setValue={setModule3}
-                    markValue={mark3}
-                    setMarkValue={setMark3}
-                />
-                <Module
-                    value={module4}
-                    setValue={setModule4}
-                    markValue={mark4}
-                    setMarkValue={setMark4}
-                />
-                <Module
-                    value={module5}
-                    setValue={setModule5}
-                    markValue={mark5}
-                    setMarkValue={setMark5}
-                />
-            </Container>
-            {/* OUTPUT BOX */}
-            <Container className="flex justify-center mt-4">
-                <Display result={result} />
-            </Container>
-            {/* BUTTONS */}
-            <Container className="flex items-center flex-col">
-                {/* BUTTON GRID */}
-                <div className="grid grid-cols-2 w-4/5 mt-4 gap-4">
-                    <Button onClick={onMinMaxClick}>
-                        Highest & Lowest Scoring Modules
-                    </Button>
-                    <Button onClick={onSortClick}>Sort Modules</Button>
-                    <Button onClick={defaultOnClick}>Total Marks</Button>
-                    <Button onClick={defaultOnClick}>Classify Grade</Button>
-                    <Button onClick={defaultOnClick}>
-                        Marks Needed for Next Grade
-                    </Button>
-                    <Button onClick={defaultOnClick}>Mean Mark</Button>
-                    <Button
-                        onClick={defaultOnClick}
-                        className="col-span-2 bg-red-400 hover:bg-red-500"
-                    >
-                        Clear
-                    </Button>
-                </div>
+        <>
+            <div className="bg-neutral-900 h-screen">
+                {/* HEADER */}
+                <h1 className="text-3xl text-white font-light text-center pt-10">
+                    QUB GradeMe App
+                </h1>
+                {/* TEXT FIELDS */}
+                <Container className="mt-10 flex flex-col items-center space-y-2">
+                    <Module
+                        value={module1}
+                        setValue={setModule1}
+                        markValue={mark1}
+                        setMarkValue={setMark1}
+                    />
+                    <Module
+                        value={module2}
+                        setValue={setModule2}
+                        markValue={mark2}
+                        setMarkValue={setMark2}
+                    />
+                    <Module
+                        value={module3}
+                        setValue={setModule3}
+                        markValue={mark3}
+                        setMarkValue={setMark3}
+                    />
+                    <Module
+                        value={module4}
+                        setValue={setModule4}
+                        markValue={mark4}
+                        setMarkValue={setMark4}
+                    />
+                    <Module
+                        value={module5}
+                        setValue={setModule5}
+                        markValue={mark5}
+                        setMarkValue={setMark5}
+                    />
+                </Container>
+                {/* OUTPUT BOX */}
+                <Container className="flex justify-center mt-4">
+                    <Display result={result} />
+                </Container>
+                {/* BUTTONS */}
+                <Container className="flex items-center flex-col">
+                    {/* BUTTON GRID */}
+                    <div className="grid grid-cols-2 w-4/5 mt-4 gap-4">
+                        <Button onClick={onMinMaxClick}>
+                            Highest & Lowest Scoring Modules
+                        </Button>
+                        <Button onClick={onSortClick}>Sort Modules</Button>
+                        <Button onClick={onTotalClick}>Total Marks</Button>
+                        <Button onClick={onClassifyClick}>
+                            Classify Grade
+                        </Button>
+                        <Button onClick={onMarksNeededClick}>
+                            Marks Needed for Next Grade
+                        </Button>
+                        <Button onClick={onMeanClick}>Mean Mark</Button>
+                        <Button
+                            onClick={defaultOnClick}
+                            className="col-span-2 bg-purple hover:bg-purupleHover"
+                        >
+                            Clear
+                        </Button>
+                    </div>
 
-                {/* CLEAR */}
-            </Container>
-            {/* FOOTER */}
-            <footer></footer>
-        </div>
+                    {/* CLEAR */}
+                </Container>
+                {/* FOOTER */}
+                <footer className="h-24 mt-20 bg-accentBlue"></footer>
+            </div>
+            <ToastContainer theme="dark" />
+        </>
     );
 }
 

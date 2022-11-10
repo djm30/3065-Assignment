@@ -4,14 +4,14 @@
 @tailwind utilities;
 
 body {
-  font-family: "Open Sans", sans-serif;
-  @apply bg-neutral-800;
+    font-family: "Open Sans", sans-serif;
+    @apply bg-neutral-900;
 }
 
 @layer base {
-  input[type="number"]::-webkit-inner-spin-button,
-  input[type="number"]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
 }

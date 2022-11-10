@@ -1,33 +1,34 @@
 import { ToastContent } from "react-toastify";
 import { toast } from "react-toastify";
-import { MinMaxResponse, SortedResponse, Kinds, Kind } from "../types";
+import { Kinds, ResponseTypes } from "../types";
+import axios from "axios";
 
 const useFetch = (
-    setResult: React.Dispatch<
-        React.SetStateAction<
-            | MinMaxResponse
-            | SortedResponse
-            | TotalMarksResponse
-            | ClassifyGradeResponse
-            | MarksForNextResponse
-            | MeanMarkResponse
-            | undefined
-        >
-    >,
+    setResult: React.Dispatch<React.SetStateAction<ResponseTypes | undefined>>,
 ) => {
-    return async <T extends Kind>(
-        getFunction: (modules: string[], marks: number[]) => T,
+    return async <T extends ResponseTypes>(
+        getFunction: (modules: string[], marks: number[]) => Promise<T>,
         modules: string[],
         marks: number[],
-        kind: Kinds,
     ) => {
         try {
             const result = await getFunction(modules, marks);
-            result.kind = kind;
+            console.log("hello");
             setResult(result);
-        } catch (e: any) {
-            console.log(e);
-            toast.error(e.message);
+        } catch (e) {
+            if (axios.isAxiosError(e)) {
+                if (e.response?.status === 400) {
+                    toast.error(e.response?.data.errorMessage);
+                }
+                if (e.message === "Network Error") {
+                    toast.error("Can't connect to our servers");
+                }
+            } else {
+                console.log(e);
+                toast.error("An unknown error has occured");
+            }
         }
     };
 };
+
+export { useFetch };

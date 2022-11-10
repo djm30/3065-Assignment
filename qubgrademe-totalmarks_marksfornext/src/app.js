@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const total = require("./totalMarks");
 const { validate } = require("./validate");
 const marksForNext = require("./marksForNext");
@@ -6,6 +7,7 @@ const convertAndRemoveNullMarksModules = require("./removeIncorrect");
 const { format } = require("date-fns");
 
 const app = express();
+app.use(cors());
 
 app.get("/marks", (req, res) => {
     const {
@@ -78,14 +80,14 @@ app.get("/next", (req, res) => {
         errorMessage: "",
         modules: modules,
         marks: marks,
-        marksRequired: "",
+        marks_required: "",
     };
 
     const { success, message } = validate(modules, marks);
 
     if (success) {
-        const marksRequired = marksForNext(marks.map((x) => parseInt(x)));
-        response = { ...response, marksRequired };
+        const marks_required = marksForNext(marks.map((x) => parseInt(x)));
+        response = { ...response, marks_required };
     } else {
         response = { ...response, error: true, errorMessage: message };
     }
