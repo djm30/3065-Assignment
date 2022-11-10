@@ -1,4 +1,3 @@
-import { ToastContent } from "react-toastify";
 import { toast } from "react-toastify";
 import { Kinds, ResponseTypes } from "../types";
 import axios from "axios";
@@ -11,23 +10,44 @@ const useFetch = (
         modules: string[],
         marks: number[],
     ) => {
+        const id = toast.loading("Fetching Results!");
         try {
             const result = await getFunction(modules, marks);
+            toast.update(id, {
+                type: "default",
+                render: "Successful!",
+                isLoading: false,
+                autoClose: 1500,
+            });
             console.log("hello");
             setResult(result);
         } catch (e) {
             if (axios.isAxiosError(e)) {
                 if (e.response?.status === 400) {
-                    toast.error(e.response?.data.errorMessage);
+                    toast.update(id, {
+                        type: "error",
+                        render: e.response?.data.errorMessage,
+                        isLoading: false,
+                        autoClose: 4000,
+                    });
                 }
                 if (e.message === "Network Error") {
-                    toast.error("Can't connect to our servers");
+                    toast.update(id, {
+                        type: "error",
+                        render: "Can't connect to our servers!",
+                        isLoading: false,
+                        autoClose: 4000,
+                    });
                 }
             } else {
                 console.log(e);
-                toast.error("An unknown error has occured");
+                toast.update(id, {
+                    type: "error",
+                    render: "An unknown error occured!",
+                    isLoading: false,
+                    autoClose: 4000,
+                });
             }
-            console.log(e);
         }
     };
 };

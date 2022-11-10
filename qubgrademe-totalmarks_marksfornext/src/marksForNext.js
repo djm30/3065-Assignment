@@ -21,10 +21,11 @@ const marksForNext = (marks) => {
 };
 
 const getMessage = (upperBound, currentAverage, grade) =>
-    `Your current overall mark is: ${currentAverage}, and is ${
+    `Your current overall mark is: ${currentAverage.toFixed(1)}, and is ${(
         upperBound - currentAverage
-    } marks from a ${grade}, you need a total of ${
-        (upperBound - currentAverage) * 5
-    } more marks across all 5 possible modules to reach this.`;
+    ).toFixed(1)} marks from a ${grade}, you need a total of ${(
+        (upperBound - currentAverage) *
+        5
+    ).toFixed(2)} more marks across all 5 possible modules to reach this.`;
 
 module.exports = marksForNext;

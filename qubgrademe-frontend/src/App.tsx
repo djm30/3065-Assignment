@@ -14,16 +14,7 @@ import { ServiceURLS } from "./services/service_urls";
 
 import "react-toastify/dist/ReactToastify.css";
 
-import {
-    ClassifyGradeResponse,
-    MarksForNextResponse,
-    MeanMarkResponse,
-    MinMaxResponse,
-    SortedResponse,
-    TotalMarksResponse,
-    ResponseTypes,
-    Kinds,
-} from "./types";
+import { ResponseTypes } from "./types";
 import { useFetch } from "./hooks";
 
 function App() {
@@ -51,8 +42,6 @@ function App() {
     const marks = [mark1, mark2, mark3, mark4, mark5];
     const modules = [module1, module2, module3, module4, module5];
 
-    const defaultOnClick = () => {};
-
     const onMinMaxClick = async () => {
         await fetch(getMaxMin, modules, marks);
     };
@@ -75,6 +64,19 @@ function App() {
 
     const onMeanClick = async () => {
         await fetch(getMeanMark, modules, marks);
+    };
+
+    const clearInputs = () => {
+        setModule1("");
+        setModule2("");
+        setModule3("");
+        setModule4("");
+        setModule5("");
+        setMark1(NaN);
+        setMark2(NaN);
+        setMark3(NaN);
+        setMark4(NaN);
+        setMark5(NaN);
     };
 
     return (
@@ -138,7 +140,7 @@ function App() {
                         </Button>
                         <Button onClick={onMeanClick}>Mean Mark</Button>
                         <Button
-                            onClick={defaultOnClick}
+                            onClick={clearInputs}
                             className="col-span-2 bg-purple hover:bg-purupleHover"
                         >
                             Clear
