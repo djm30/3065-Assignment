@@ -23,7 +23,7 @@ describe("Testing the marks for next endpoint", () => {
             .property("marks")
             .has.same.members([65, 65, 65, 65, 65]);
         body.should.have
-            .property("marksRequired")
+            .property("marks_required")
             .equals(
                 "Your current average is: 65, and is 5 marks from a First, you need a total of 25 more marks across all 5 possible modules to reach this.",
             );
@@ -46,6 +46,6 @@ describe("Testing the marks for next endpoint", () => {
         body.should.have
             .property("marks")
             .has.same.members([65, 65, 65, 65, 65]);
-        body.should.have.property("marksRequired").equals("");
+        body.should.have.property("marks_required").equals("");
     });
 });
