@@ -7,11 +7,18 @@ on:
   push:
     branches:
       - master
+    paths:
+      - "qubgrademe-meanmark/**"
+  pull_request:
+    branches:
+      - master
+    paths:
+      - "qubgrademe-meanmark/**"
   workflow_dispatch:
 
 env:
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
-  DOTNET_VERSION: '6.0.x' # set this to the dotnet version to use
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: "./qubgrademe-meanmark/src" # set this to the path to your web app project, defaults to the repository root
+  DOTNET_VERSION: "6.0.302" # set this to the dotnet version to use
 
 jobs:
   build-and-deploy:
@@ -31,6 +38,16 @@ jobs:
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
           dotnet build --configuration Release --output ./output
           popd
+
+      - name: "Install Test Dependencies"
+        shell: bash
+        working-directory: qubgrademe-meanmark/tests
+        run: dotnet restore
+
+      - name: "Run Tests"
+        shell: bash
+        working-directory: qubgrademe-meanmark/tests
+        run: dotnet test
 
       - name: 'Run Azure Functions Action'
         uses: Azure/functions-action@v1
