@@ -1,28 +1,28 @@
 export interface Response extends Kind {
-  error: boolean;
-  modules: string[];
-  marks: string[];
+    error: boolean;
+    modules: string[];
+    marks: string[];
 }
 
 export enum Kinds {
-  minMax,
-  sort,
+    minMax,
+    sort,
 }
 
 export interface Kind {
-  kind: Kinds;
+    kind: Kinds;
 }
 
 export interface MinMaxResponse extends Response {
-  max_module: string;
-  min_module: string;
+    max_module: string;
+    min_module: string;
 }
 
 export interface SortedResponse extends Response {
-  sorted_modules: Module[];
+    sorted_modules: Module[];
 }
 
 export interface Module {
-  module: string;
-  marks: string;
+    module: string;
+    marks: string;
 }
