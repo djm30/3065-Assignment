@@ -18,7 +18,7 @@ describe("Should calculate the marks required to get the next grade", () => {
         const result = marksForNext(marks);
 
         expect(result).toBe(
-            "Your current overall mark is: 61, and is 9 marks from a First, you need a total of 45 more marks across all 5 possible modules to reach this.",
+            "Your current overall mark is: 61.0, and is 9.0 marks from a First, you need a total of 45.0 more marks across all 5 possible modules to reach this.",
         );
     });
 
@@ -28,7 +28,7 @@ describe("Should calculate the marks required to get the next grade", () => {
         const result = marksForNext(marks);
 
         expect(result).toBe(
-            "Your current overall mark is: 51, and is 9 marks from a 2.1, you need a total of 45 more marks across all 5 possible modules to reach this.",
+            "Your current overall mark is: 51.0, and is 9.0 marks from a 2.1, you need a total of 45.0 more marks across all 5 possible modules to reach this.",
         );
     });
 
@@ -38,7 +38,7 @@ describe("Should calculate the marks required to get the next grade", () => {
         const result = marksForNext(marks);
 
         expect(result).toBe(
-            "Your current overall mark is: 41, and is 9 marks from a 2.2, you need a total of 45 more marks across all 5 possible modules to reach this.",
+            "Your current overall mark is: 41.0, and is 9.0 marks from a 2.2, you need a total of 45.0 more marks across all 5 possible modules to reach this.",
         );
     });
 
@@ -48,7 +48,7 @@ describe("Should calculate the marks required to get the next grade", () => {
         const result = marksForNext(marks);
 
         expect(result).toBe(
-            "Your current overall mark is: 31, and is 9 marks from a Third, you need a total of 45 more marks across all 5 possible modules to reach this.",
+            "Your current overall mark is: 31.0, and is 9.0 marks from a Third, you need a total of 45.0 more marks across all 5 possible modules to reach this.",
         );
     });
 
@@ -58,7 +58,7 @@ describe("Should calculate the marks required to get the next grade", () => {
         const result = marksForNext(marks);
 
         expect(result).toBe(
-            "Your current overall mark is: 0, and is 40 marks from a Third, you need a total of 200 more marks across all 5 possible modules to reach this.",
+            "Your current overall mark is: 0.0, and is 40.0 marks from a Third, you need a total of 200.0 more marks across all 5 possible modules to reach this.",
         );
     });
 
@@ -68,7 +68,7 @@ describe("Should calculate the marks required to get the next grade", () => {
         const result = marksForNext(marks);
 
         expect(result).toBe(
-            "Your current overall mark is: 64, and is 6 marks from a First, you need a total of 30 more marks across all 5 possible modules to reach this.",
+            "Your current overall mark is: 64.0, and is 6.0 marks from a First, you need a total of 30.0 more marks across all 5 possible modules to reach this.",
         );
     });
 });

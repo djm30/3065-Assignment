@@ -25,7 +25,7 @@ describe("Testing the marks for next endpoint", () => {
         body.should.have
             .property("marks_required")
             .equals(
-                "Your current overall mark is: 65, and is 5 marks from a First, you need a total of 25 more marks across all 5 possible modules to reach this.",
+                "Your current overall mark is: 65.0, and is 5.0 marks from a First, you need a total of 25.0 more marks across all 5 possible modules to reach this.",
             );
     });
     test("Returns 400 Bad Request and appropiate response for valid request", async () => {

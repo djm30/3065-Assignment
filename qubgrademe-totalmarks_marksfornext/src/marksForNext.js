@@ -26,6 +26,6 @@ const getMessage = (upperBound, currentAverage, grade) =>
     ).toFixed(1)} marks from a ${grade}, you need a total of ${(
         (upperBound - currentAverage) *
         5
-    ).toFixed(2)} more marks across all 5 possible modules to reach this.`;
+    ).toFixed(1)} more marks across all 5 possible modules to reach this.`;
 
 module.exports = marksForNext;
