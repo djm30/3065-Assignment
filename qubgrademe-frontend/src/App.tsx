@@ -14,11 +14,11 @@ function App() {
     const [module4, setModule4] = useState("");
     const [module5, setModule5] = useState("");
 
-    const [mark1, setMark1] = useState<number>(0);
-    const [mark2, setMark2] = useState<number>(0);
-    const [mark3, setMark3] = useState<number>(0);
-    const [mark4, setMark4] = useState<number>(0);
-    const [mark5, setMark5] = useState<number>(0);
+    const [mark1, setMark1] = useState<number>(NaN);
+    const [mark2, setMark2] = useState<number>(NaN);
+    const [mark3, setMark3] = useState<number>(NaN);
+    const [mark4, setMark4] = useState<number>(NaN);
+    const [mark5, setMark5] = useState<number>(NaN);
 
     const [result, setResult] = useState<MinMaxResponse | SortedResponse>();
 
@@ -111,7 +111,7 @@ function App() {
                     <Button onClick={defaultOnClick}>
                         Marks Needed for Next Grade
                     </Button>
-                    <Button onClick={defaultOnClick}>???</Button>
+                    <Button onClick={defaultOnClick}>Mean Mark</Button>
                     <Button
                         onClick={defaultOnClick}
                         className="col-span-2 bg-red-400 hover:bg-red-500"

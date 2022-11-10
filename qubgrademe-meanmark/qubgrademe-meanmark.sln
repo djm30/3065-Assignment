@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "qubgrademe-meanmark", "src\qubgrademe-meanmark.csproj", "{AA31F68A-9B1E-4155-9C52-9E09AD9EC7E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tests", "tests\tests.csproj", "{FD7EC22E-2F5A-459E-877B-41CC2C6A8BA7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AA31F68A-9B1E-4155-9C52-9E09AD9EC7E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA31F68A-9B1E-4155-9C52-9E09AD9EC7E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA31F68A-9B1E-4155-9C52-9E09AD9EC7E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA31F68A-9B1E-4155-9C52-9E09AD9EC7E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD7EC22E-2F5A-459E-877B-41CC2C6A8BA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD7EC22E-2F5A-459E-877B-41CC2C6A8BA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD7EC22E-2F5A-459E-877B-41CC2C6A8BA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD7EC22E-2F5A-459E-877B-41CC2C6A8BA7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

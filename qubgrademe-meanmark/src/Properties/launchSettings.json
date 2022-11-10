@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "qubgrademe_meanmark": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 9005",
+      "launchBrowser": false
+    }
+  }
+}
