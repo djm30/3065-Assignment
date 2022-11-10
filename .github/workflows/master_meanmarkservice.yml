@@ -54,6 +54,6 @@ jobs:
         id: fa
         with:
           app-name: 'meanmark-service'
-          slot-name: 'Production'
+          slot-name: 'meanmark-service-development'
           package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_5DDC5F040A954F5995246E9DE1DC6E26 }}
