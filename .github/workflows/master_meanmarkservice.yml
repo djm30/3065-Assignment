@@ -41,12 +41,12 @@ jobs:
 
       - name: "Install Test Dependencies"
         shell: bash
-        working-directory: qubgrademe-meanmark/test
+        working-directory: qubgrademe-meanmark/tests
         run: dotnet restore
 
       - name: "Run Tests"
         shell: bash
-        working-directory: qubgrademe-meanmark/test
+        working-directory: qubgrademe-meanmark/tests
         run: dotnet test
 
       - name: 'Run Azure Functions Action'
