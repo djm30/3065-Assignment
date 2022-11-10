@@ -120,6 +120,18 @@ public class ValidationTest
     }
     
     [Fact]
+    public void Fails_When_All_Modules_Are_Null()
+    {
+        var modules = new List<string>() {null, null, null, null, null };
+        var marks = new List<string>() {"60", "70", "60", "70", "70" };
+
+        var result = _validator.Validate(modules, marks);
+        
+        Assert.True(result.error);
+        Assert.Equal("Please provide some module codes and their respective marks", result.errorMessage);
+    }
+    
+    [Fact]
     public void Fails_When_A_Mark_Is_Over_100()
     {
         var modules = new List<string>() {"CSC 3021", "CSC 3059", "CSC 3063", "CSC 3065", "CSC 3068" };

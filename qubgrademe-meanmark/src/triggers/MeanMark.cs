@@ -33,6 +33,19 @@ public class MeanMark
     {
         log.LogInformation("Request received for mean mark");
 
+        if (!req.QueryString.HasValue)
+        {
+            return new BadRequestObjectResult(new Response
+            {
+                error = true,
+                errorMessage = "Please provide some module codes and their respective marks",
+                modules = new List<string>() { "", "", "", "", "" },
+                marks = new List<int>() { 0, 0, 0, 0, 0 },
+                mean = 0
+            });
+            log.LogError("No query params provided");
+        }
+
         var module_1 = req.Query["module_1"];
         var module_2 = req.Query["module_2"];
         var module_3 = req.Query["module_3"];
@@ -44,8 +57,8 @@ public class MeanMark
         var mark_4 = req.Query["mark_4"];
         var mark_5 = req.Query["mark_5"];
 
-        var modules = new List<string>() { module_1, module_2, module_3, module_4, module_5 };
-        var marks = new List<string>() { mark_1, mark_2, mark_3, mark_4, mark_5 };
+        var modules = new List<string?>() { module_1, module_2, module_3, module_4, module_5 };
+        var marks = new List<string?>() { mark_1, mark_2, mark_3, mark_4, mark_5 };
 
         var validationResult = _validator.Validate(modules, marks);
         
@@ -59,7 +72,7 @@ public class MeanMark
         {
             error = validationResult.error,
             errorMessage = validationResult.errorMessage,
-            modules = modules,
+            modules = modules.Select(x => x is null ? "" : x).ToList(),
             marks = marks.Select(x => TryParse(x, out var mark) ? mark : 0).ToList(),
             mean = mean
         };

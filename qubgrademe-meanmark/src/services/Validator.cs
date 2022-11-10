@@ -13,7 +13,7 @@ public  class Validator : IValidator
 
         var response = new ValidationResponse() { error = false, errorMessage = "" };
         // Checking to see if all modules are empty
-        if (modules.Count() == modules.Count(x => x.Trim() == ""))
+        if (modules.Count() == modules.Count(x => !IsStringValidModule(x)))
         {
             response.error = true;
             response.errorMessage = "Please provide some module codes and their respective marks";
@@ -24,7 +24,7 @@ public  class Validator : IValidator
             for (int i = 0; i < modules.Count(); i++)
             {
                 // Check if valid module at this index
-                if (IsModuleValidString(modules[i]))
+                if (IsStringValidModule(modules[i]))
                 {
                     // Check if mark is invalid
                     if (!IsMarkValidInteger(marks[i]))
@@ -64,7 +64,7 @@ public  class Validator : IValidator
         return false;
     }
 
-    private bool IsModuleValidString(string module) => !string.IsNullOrEmpty(module.Trim());
+    private bool IsStringValidModule(string module) => !string.IsNullOrWhiteSpace(module);
 
 }
 
