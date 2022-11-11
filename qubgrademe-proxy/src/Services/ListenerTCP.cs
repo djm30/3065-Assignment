@@ -29,13 +29,8 @@ public class ListenerTCP : IListener
         {
             while(true)
             {
-                Console.Write("Waiting for a connection... ");
-
-                // Perform a blocking call to accept requests.
-                // You could also use server.AcceptSocket() here.
-                using TcpClient client = server.AcceptTcpClient();
+                var client = await server.AcceptTcpClientAsync().ConfigureAwait(false);
                 await _handler.Handle(client);
-
             }
         }
         catch (SocketException e)

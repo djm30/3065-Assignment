@@ -1,6 +1,9 @@
+using Proxy.Models;
+
 namespace Proxy.ServiceDefinitions;
 
-public class IRequestParser
+public interface IRequestParser
 {
-    
+    public ParsedRequestResponse Parse(string request);
+
 }

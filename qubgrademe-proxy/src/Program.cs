@@ -12,6 +12,8 @@ using IHost host = Host.CreateDefaultBuilder(args)
     services.AddSingleton<IEntrypoint, Entrypoint>()
         .AddSingleton<IListener, ListenerTCP>()
         .AddSingleton<IConnectionHandler, HandlerTCP>()
+        .AddSingleton<ICommandLineParser, CommandLineParser>()
+        .AddSingleton<IRequestParser, RequestParser>()
         .AddLogging())
     .Build();
     

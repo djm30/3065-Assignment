@@ -1,2 +1,7 @@
 {
+  "port" : 9005,
+  "routing": {
+    "/marks" : "http://localhost:9003",
+    "/next": "http://localhost:9003/next"
+  }
 }
