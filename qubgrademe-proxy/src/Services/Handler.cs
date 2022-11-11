@@ -11,12 +11,14 @@ public class Handler : IConnectionHandler
     private readonly ILogger<Handler> _logger;
     private readonly IRequestParser _parser;
     private readonly IRequestMaker _requestMaker;
+    private readonly IResponsePage _responsePage;
 
-    public Handler(ILogger<Handler> logger, IRequestParser parser, IRequestMaker requestMaker)
+    public Handler(ILogger<Handler> logger, IRequestParser parser, IRequestMaker requestMaker, IResponsePage responsePage)
     {
         _logger = logger;
         _parser = parser;
         _requestMaker = requestMaker;
+        _responsePage = responsePage;
     }
 
     public async Task Handle(TcpClient client)
@@ -45,18 +47,9 @@ public class Handler : IConnectionHandler
         }
         else
         {
-            var builder = new StringBuilder();
-            // Sends a 404 if not found
-            builder.Append("HTTP/1.1 404 NOT FOUND\r\n");
-            builder.Append("Access-Control-Allow-Origin: *\r\n");
-            builder.Append("Content-Type: text/html; charset=utf-8\r\n");
-            builder.Append("Content-Length: 124\r\n");
-            builder.Append("Date: " + DateTime.Now.ToString("r") + "\r\n");
-            builder.Append("Connection: keep-alive\r\n");
-            builder.Append("Keep-Alive: timeout=5\r\n\r\n");
-            builder.Append("<h1 style=\"text-align:center;\">Not Found</h1>");
-            builder.Append("<p style=\"text-align:center;\">Has this route been setup in the config file?</p>");
-            msg = System.Text.Encoding.ASCII.GetBytes(builder.ToString());
+            var notFound = _responsePage.BuildPage(404, "NOT FOUND", "Not Found",
+                "Has the url been configured in the config file?");
+            msg = System.Text.Encoding.ASCII.GetBytes(notFound);
         }
         
 

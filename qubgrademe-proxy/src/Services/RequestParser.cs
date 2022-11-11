@@ -6,7 +6,7 @@ namespace Proxy.Services;
 public class RequestParser : IRequestParser
 {
 
-    private readonly List<string> restMethods = new List<string>()
+    private readonly List<string> _restMethods = new List<string>()
     {
         "GET",
         "POST",
@@ -45,6 +45,7 @@ public class RequestParser : IRequestParser
             // Need to see if there is a query string
             var query = getQueryString(url);
 
+            // Gets new resource route
             var newUrl = matchUrl(url);
 
             // Need to check if a destination was matched
@@ -52,15 +53,25 @@ public class RequestParser : IRequestParser
             else
             {
                 var host = new Uri(newUrl+query);
-                // Putting the new url together
-                var newHeader = headerSplit[0] + " " + host.PathAndQuery + " " + headerSplit[2] + "\n";
-                var headRows = request.Split("\n").Where(x => !x.Contains("Host") && !x.Contains("Connection") && !x.Contains("Accept-Encoding")).Skip(1);
-                newHeader = newHeader + "Host: " + host.Host + "\r\n";
-                var newMessage = newHeader + string.Join("", headRows.Select(x => x + "\n"));
-                newMessage = newMessage.Substring(0, newMessage.Length - 1);
-                Console.WriteLine(newMessage);
+                
+                // New HTTP header   // REST Method        /path                      // HTTP/1.1
+                var httpHeader = headerSplit[0] + " " + host.PathAndQuery + " " + headerSplit[2] + "\n";
+                
+                // Adding new host header
+                httpHeader += "Host: " + host.Host + "\r\n";
+
+                // Getting headers from response, skipping first row as there is a new one and filtering out some headers that cause issues
+                var oldHeaderRows = request.Split("\n")
+                    .Where(x => !x.Contains("Host") && !x.Contains("Connection") && !x.Contains("Accept-Encoding"))
+                    .Skip(1);
+                // Appending new host header as well
+                
+                var requestHeaders = httpHeader + string.Join("", oldHeaderRows.Select(x => x + "\n"));
+                requestHeaders = requestHeaders.Substring(0, requestHeaders.Length - 1);
+                
+                
                 response.Host = host;
-                response.Request = System.Text.Encoding.ASCII.GetBytes(newMessage);
+                response.Request = System.Text.Encoding.ASCII.GetBytes(requestHeaders);
             }
         }
         else
@@ -99,6 +110,11 @@ public class RequestParser : IRequestParser
         return newUrl;
     }
 
+    private void HeadersToBytes(string headers)
+    {
+        
+    }
+
     private int getIndexOfQuery(string url) => url.IndexOf("?");
 
     private string getQueryString(string url)
@@ -113,7 +129,7 @@ public class RequestParser : IRequestParser
         if (headerSplit.Length == 3)
         {
             // Check if first element if valid rest endpoint
-            if (restMethods.IndexOf(headerSplit[0].ToUpper()) != -1)
+            if (_restMethods.IndexOf(headerSplit[0].ToUpper()) != -1)
                 // Get url from second element
                 if (Uri.TryCreate(headerSplit[1], UriKind.Relative, out var httpHeader))
                     // Http Version should be 1.1 on third element

@@ -8,17 +8,7 @@ const { format } = require("date-fns");
 
 const app = express();
 
-app.use((req, res, next) => {
-    console.log(req);
-    next();
-});
 app.use(cors());
-
-app.use((req, res, error, next) => {
-    console.log(req);
-    console.log(error);
-    res.send(404);
-});
 
 app.get("/marks", (req, res) => {
     const {

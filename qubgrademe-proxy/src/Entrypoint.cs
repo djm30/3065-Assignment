@@ -19,6 +19,7 @@ public class Entrypoint : IEntrypoint
     public async Task Run()
     {
         
+        Console.WriteLine("Type /help for a list of commands");
         Console.CancelKeyPress += delegate(object? sender, ConsoleCancelEventArgs args)
         {
             Console.WriteLine("Shutting down");

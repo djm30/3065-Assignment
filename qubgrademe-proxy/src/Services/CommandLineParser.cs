@@ -4,16 +4,60 @@ namespace Proxy.Services;
 
 public class CommandLineParser : ICommandLineParser
 {
+
+    private readonly IConfig _config;
+
+    public CommandLineParser(IConfig config)
+    {
+        _config = config;
+    }
+
     public void Parse()
     {
         while (true)
         {
             var result = Console.ReadLine();
-            if (result == "exit")
+            switch (result?.Trim())
             {
-                Environment.Exit(0);
+                case "/exit":
+                    Environment.Exit(0);
+                    break;
+                case "/reload":
+                    Console.WriteLine("Updating settings!");
+                    _config.LoadSettings();
+                    break;
+                case "/print":
+                    PrintRoutes();
+                    break;
+                case "/help":
+                    PrintHelp();
+                    break;
+                case "/clear":
+                    Console.Clear();
+                    break;
+                default:
+                    Console.WriteLine("Not a valid command");
+                    break;
             }
-            Console.WriteLine("Not a valid command");
+            Console.WriteLine("\n");
         }
+    }
+
+    private void PrintRoutes()
+    {
+        Console.WriteLine("Route         Destination");
+        foreach (var route in _config.GetRouteMap())
+        {
+            var s = $"|  {route.Key,-10} | {route.Value}";
+            Console.WriteLine(s);
+        }
+    }
+
+    private void PrintHelp()
+    {
+        Console.WriteLine("\n/exit → Exits the program");
+        Console.WriteLine("/reload → Reloads the json config file");
+        Console.WriteLine("/print → Prints current proxy bindings");
+        Console.WriteLine("/clear → Clears current console output");
     }
 }

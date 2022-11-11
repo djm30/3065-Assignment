@@ -5,53 +5,68 @@ using System.Linq;
 using System.Net.Security;
 using System.Text;
 using System;
+using Microsoft.Extensions.Logging;
 
 namespace Proxy.Services;
 
 public class RequestMaker : IRequestMaker
 {
+
+    private readonly ILogger<RequestMaker> _logger;
+    private readonly IResponsePage _responsePage;
+
+    public RequestMaker(ILogger<RequestMaker> logger, IResponsePage responsePage)
+    {
+        _logger = logger;
+        _responsePage = responsePage;
+    }
+
     public async Task<string> MakeRequest(Uri host, IEnumerable<byte> request)
     {
         Byte[] bytes = new Byte[1024];
         string response;
         
-        
         using var tcp = new TcpClient(host.Host.Trim(), host.Port);
-        using (var stream = tcp.GetStream())
+        await using var stream = tcp.GetStream();
+        try
         {
             tcp.SendTimeout = 4000;
             tcp.ReceiveTimeout = 4000;
+                
+            var req = request.ToArray();
             if (host.Port == 443)
             {
                 SslStream sslStream = new SslStream(
                     tcp.GetStream(),
                     false
                 );
-                
-                var req = request.ToArray();
-
-                sslStream.AuthenticateAsClient(host.Host);
+                    
+                await sslStream.AuthenticateAsClientAsync(host.Host);
+                    
                 await sslStream.WriteAsync(req, 0, req.Length);
                 await sslStream.FlushAsync();
 
-                sslStream.Read(bytes, 0, bytes.Length);
+                var i = sslStream.Read(bytes, 0, bytes.Length);
 
-                response = Encoding.UTF8.GetString(bytes);
-                response = string.Join("" ,response.Where(x => x != '\0').ToList());
-                Console.WriteLine(response);
+                response = Encoding.ASCII.GetString(bytes, 0, i);
+                    
+                // Was used to remove null bytes from array, not sure if its needed
+                // response = string.Join("" ,response.Where(x => x != '\0').ToList());
             }
             else
             {
-                var req = request.ToArray();
-
                 await stream.WriteAsync(req, 0, req.Length);
                 await stream.FlushAsync();
                 // Reading request
-                int i = stream.Read(bytes, 0, bytes.Length);
-                Console.WriteLine(i);
+                var i =stream.Read(bytes, 0, bytes.Length);
                 response = Encoding.ASCII.GetString(bytes, 0, i);
             }
-
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error occured while forwarding request to destination");
+            response = _responsePage.BuildPage(500, "INTERNAL SERVER ERROR", "Internal Server Error",
+                "An error has occured when making the response");
         }
 
         return response;

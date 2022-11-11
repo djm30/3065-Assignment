@@ -21,6 +21,7 @@ using IHost host = Host.CreateDefaultBuilder(args).ConfigureAppConfiguration(app
         .AddSingleton<IRequestParser, RequestParser>()
         .AddSingleton<IRequestMaker, RequestMaker>()
         .AddSingleton<IConfig, Config>()
+        .AddSingleton<IResponsePage, ResponsePage>()
         .AddLogging()
     )
     .Build();
