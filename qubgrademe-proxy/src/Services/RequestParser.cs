@@ -19,19 +19,19 @@ public class RequestParser : IRequestParser
         "TRACE"
     };
 
-    private readonly Dictionary<string, string> _routing = new Dictionary<string, string>()
+    private readonly IConfig _config;
+
+    public RequestParser(IConfig config)
     {
-        { "/hello", "localhost:3000" },
-        { "/hello/health", "localhost:9000" }
-    };
-    
+        _config = config;
+    }
+
     public ParsedRequestResponse Parse(string request)
     {
-
         var response = new ParsedRequestResponse()
         {
-            request = null,
-            valid = true,
+            Request = null,
+            Valid = true,
         };
         
         // Confirm the request is an HTTP request
@@ -48,21 +48,23 @@ public class RequestParser : IRequestParser
             var newUrl = matchUrl(url);
 
             // Need to check if a destination was matched
-            var finalDestination = newUrl + query;
-
-            // If new url is "", means no matching url was found in the configuration
-            if (newUrl == "")
+            if (string.IsNullOrWhiteSpace(newUrl)) response.Valid = false;
+            else
             {
-                response.valid = false;
+                var host = new Uri(newUrl+query);
+                // Putting the new url together
+                var newHeader = headerSplit[0] + " " + host.PathAndQuery + " " + headerSplit[2] + "\n";
+                var headRows = request.Split("\n").Where(x => !x.Contains("Host") && !x.Contains("Connection") && !x.Contains("Accept-Encoding")).Skip(1);
+                newHeader = newHeader + "Host: " + host.Host + "\r\n";
+                var newMessage = newHeader + string.Join("", headRows.Select(x => x + "\n"));
+                newMessage = newMessage.Substring(0, newMessage.Length - 1);
+                Console.WriteLine(newMessage);
+                response.Host = host;
+                response.Request = System.Text.Encoding.ASCII.GetBytes(newMessage);
             }
-
-            // Putting the new url together
-            var newHeader = headerSplit[0] + " " + newUrl + " " + headerSplit[2] + "\n";
-            var newMessage = newHeader + string.Join("", request.Split("\n").Skip(1).Select(x => x + "\n"));
-            response.request = System.Text.Encoding.ASCII.GetBytes(newMessage);
         }
         else
-            response.valid = false;
+            response.Valid = false;
 
         return response;
     }
@@ -80,7 +82,7 @@ public class RequestParser : IRequestParser
                 // Need to start with full url from route,
                 // then take one off each time if no match is found
                 var currRoute = string.Join("", routing.Take(i));
-                if (_routing.TryGetValue(currRoute, out var destination))
+                if (_config.GetRouteMap().TryGetValue(currRoute, out var destination))
                 {
                     newUrl = destination + string.Join("", routing.Skip(i));
                     break;
@@ -89,7 +91,7 @@ public class RequestParser : IRequestParser
         }
         else
         {
-            if (_routing.TryGetValue("/", out var destination))
+            if (_config.GetRouteMap().TryGetValue("/", out var destination))
             {
                 newUrl = destination;
             }

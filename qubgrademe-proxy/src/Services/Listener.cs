@@ -5,29 +5,29 @@ using Proxy.ServiceDefinitions;
 
 namespace Proxy.Services;
 
-public class ListenerTCP : IListener
+public class Listener : IListener
 {
-    private const Int32 Port = 9005;
-    private readonly IPAddress localHost = IPAddress.Parse("127.0.0.1");
-    private readonly ILogger<ListenerTCP> _logger;
+    private readonly IConfig _config;
+    private readonly ILogger<Listener> _logger;
     private readonly TcpListener server;
     private readonly IConnectionHandler _handler;
 
 
-    public ListenerTCP(ILogger<ListenerTCP> logger, IConnectionHandler handler)
+    public Listener(ILogger<Listener> logger, IConnectionHandler handler, IConfig config)
     {
         _logger = logger;
         _handler = handler;
-        server = new TcpListener(localHost, Port);
+        _config = config;
+        server = new TcpListener(_config.GetIpAddress(), _config.GetPort());
     }
 
     public async void Listen()
     {
         server.Start();
-        _logger.LogInformation("Listening on port {}", Port);
+        _logger.LogInformation("Listening on port {}", _config.GetPort());
         try
         {
-            while(true)
+            while(!_config.IsShutdown())
             {
                 var client = await server.AcceptTcpClientAsync().ConfigureAwait(false);
                 await _handler.Handle(client);
@@ -35,6 +35,7 @@ public class ListenerTCP : IListener
         }
         catch (SocketException e)
         {
+            _logger.LogError(e.Message);
         }
         finally
         {

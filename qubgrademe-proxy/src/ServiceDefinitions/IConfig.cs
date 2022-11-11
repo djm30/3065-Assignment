@@ -1,8 +1,16 @@
+using System.Net;
+
 namespace Proxy.ServiceDefinitions;
 
-public abstract class IConfig
+public interface  IConfig
 {
-    public static int Port;
-    public static bool Poll;
+    public int GetPort();
+    public bool IsShutdown();
+    public void InitiateShutdown();
+
+    public IPAddress GetIpAddress();
+
+    public Dictionary<string, string> GetRouteMap();
     
+    public Task LoadSettings();
 }

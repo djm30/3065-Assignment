@@ -2,6 +2,7 @@ namespace Proxy.Models;
 
 public class ParsedRequestResponse
 {
-    public IEnumerable<byte> request { get; set; }
-    public bool valid { get; set; }
+    public Uri Host { get; set; }
+    public IEnumerable<byte> Request { get; set; }
+    public bool Valid { get; set; }
 }

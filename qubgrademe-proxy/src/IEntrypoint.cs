@@ -2,5 +2,5 @@ namespace Proxy;
 
 public interface IEntrypoint
 {
-    public void Run();
+    public Task Run();
 }

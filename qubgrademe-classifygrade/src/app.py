@@ -14,9 +14,10 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 start_time = time.time()
 port = int(os.environ.get('PORT')) if os.environ.get('PORT') is not None else 9004
 
-@app.route("/", methods=["GET"])
+@app.route("/", methods=["GET"], strict_slashes=False)
 @cross_origin()
 def sum():
+    print("HERE FUCK FUCK FUCK I HATE THIS")
     module1 = request.args.get("module_1")
     module2 = request.args.get("module_2")
     module3 = request.args.get("module_3")
@@ -57,7 +58,7 @@ def sum():
 
     return response, 200 if success else 400
 
-@app.route("/health", methods=["GET"])
+@app.route("/health", methods=["GET"], strict_slashes=False)
 @cross_origin()
 def health():
     data = {

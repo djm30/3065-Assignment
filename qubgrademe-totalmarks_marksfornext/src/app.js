@@ -7,7 +7,18 @@ const convertAndRemoveNullMarksModules = require("./removeIncorrect");
 const { format } = require("date-fns");
 
 const app = express();
+
+app.use((req, res, next) => {
+    console.log(req);
+    next();
+});
 app.use(cors());
+
+app.use((req, res, error, next) => {
+    console.log(req);
+    console.log(error);
+    res.send(404);
+});
 
 app.get("/marks", (req, res) => {
     const {
@@ -55,6 +66,7 @@ app.get("/marks", (req, res) => {
 });
 
 app.get("/next", (req, res) => {
+    console.log(req);
     const {
         module_1,
         module_2,
