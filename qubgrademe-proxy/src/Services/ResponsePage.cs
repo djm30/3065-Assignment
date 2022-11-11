@@ -7,6 +7,7 @@ public class ResponsePage : IResponsePage
 {
     public string BuildPage(int statusCode, string statusMessage, string heading, string info)
     {
+        var firstHeader = $"HTTP/1.1 {statusCode} {statusMessage}\r\n";
         var h1 = $"<h1 style=\"text-align:center;\">{heading}</h1>";
         var p = $"<p style=\"text-align:center;\">{info}</p>";
 
@@ -16,7 +17,7 @@ public class ResponsePage : IResponsePage
 
         var builder = new StringBuilder();
         // Sends a 404 if not found
-        builder.Append("HTTP/1.1 404 NOT FOUND\r\n");
+        builder.Append(firstHeader);
         builder.Append("Access-Control-Allow-Origin: *\r\n");
         builder.Append("Content-Type: text/html; charset=utf-8\r\n");
         builder.Append(contentLengthHeader);
