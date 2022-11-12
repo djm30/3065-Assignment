@@ -30,7 +30,7 @@ jobs:
         go-version: 1.18
 
     - name: Build
-      run: go build -v src/*.go -o main
+      run: go build -v src/*.go 
 
     - name: Test
       run: go test -v ./...
