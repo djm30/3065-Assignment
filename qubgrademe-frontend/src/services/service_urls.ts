@@ -33,7 +33,7 @@ export class ServiceURLS {
         console.log(this.urls);
     }
 
-    constructor() {
+    private constructor() {
         this.LoadData();
     }
 

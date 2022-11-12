@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "qubgrademe_statefulsaving": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7020",
+      "launchBrowser": false
+    }
+  }
+}

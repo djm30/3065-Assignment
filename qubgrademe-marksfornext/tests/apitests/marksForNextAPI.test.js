@@ -9,7 +9,7 @@ describe("Testing the marks for next endpoint", () => {
     test("Returns 200 OK and appropiate response for valid request", async () => {
         const { body } = await api
             .get(
-                "/next?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=65&mark_2=65&mark_3=65&mark_4=65&mark_5=65",
+                "?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=65&mark_2=65&mark_3=65&mark_4=65&mark_5=65",
             )
             .expect(200)
             .expect("Content-Type", /application\/json/);
@@ -31,7 +31,7 @@ describe("Testing the marks for next endpoint", () => {
     test("Returns 400 Bad Request and appropiate response for valid request", async () => {
         const { body } = await api
             .get(
-                "/next?&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=65&mark_2=65&mark_3=65&mark_4=65&mark_5=65",
+                "?&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=65&mark_2=65&mark_3=65&mark_4=65&mark_5=65",
             )
             .expect(400)
             .expect("Content-Type", /application\/json/);
