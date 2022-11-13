@@ -1,19 +1,15 @@
-﻿@page "/single"
+﻿@page "/service/{name}"
 
 <PageTitle>Weather forecast</PageTitle>
 
 @using src.Data
-@inject WeatherForecastService ForecastService
+@using System.Net
 @inject MonitoringService MonitoringService
 
-<h1>Metrics</h1>
 
-<div class="flex-row justify-content-between">
-    <p>Time until next check: 1:00:00</p>
-    <button class="btn btn-secondary">Check Now</button>
-</div>
 
-@if (forecasts == null)
+
+@if (service == null)
 {
     <p>
         <em>Loading...</em>
@@ -21,23 +17,27 @@
 }
 else
 {
-    <table class="table">
+    <h1>Metrics for @service.name Service</h1>
+    <div class="flex-row justify-content-between">
+        <p>Last Checked: @MonitoringService.LastChecked</p>
+    </div>
+    <table class="table mt-5 pt-2">
         <thead>
         <tr>
-            <th>Service Name</th>
+            <th>Service URL</th>
             <th>Response Time</th>
-            <th>Status</th>
+            <th>Status Code</th>
             <th>Correct Result</th>
         </tr>
         </thead>
         <tbody>
-        @foreach (var forecast in forecasts)
+        @foreach (var result in service.services)
         {
             <tr>
-                <td>@forecast.Date.ToShortDateString()</td>
-                <td>@forecast.TemperatureC</td>
-                <td>@forecast.TemperatureF</td>
-                <td>@forecast.Summary</td>
+                <td>@result.url</td>
+                <td>@result.responseTime ms</td>
+                <td>@(result.statusCode != HttpStatusCode.UnavailableForLegalReasons ? $"{(int)result.statusCode,-3}, {result.statusCode}" : "Service Not Found")</td>
+                <td  role="button" title="Expected: @service.expected_value Actual: @result.actual_result">@result.isExpected</td>
             </tr>
         }
         </tbody>
@@ -45,12 +45,14 @@ else
 }
 
 @code {
-    private WeatherForecast[]? forecasts;
+    [Parameter] public string name { get; set; }
+
+    private ServiceMonitorSchema? service;
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
-        await MonitoringService.RunChecksAsync();
+        var services = await MonitoringService.GetMonitorData();
+        service = services.Find(x => x.name == name);
     }
 
 }

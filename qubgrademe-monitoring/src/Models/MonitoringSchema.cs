@@ -9,12 +9,15 @@ public class MonitoringSchema
     public HttpStatusCode statusCode { get; set; }
     public bool isExpected { get; set; }
     public int responseTime { get; set; }
+    public string actual_result { get; set; }
 }
 
 public class ServiceMonitorSchema
 {
     public string name { get; set; }
     public List<MonitoringSchema> services { get; set; }
+    
+    public string expected_value { get; set; }
 
     public AggregateSchema AggregateData()
     {
@@ -29,11 +32,4 @@ public class ServiceMonitorSchema
             servicesCorrect = $"{servicesCorrect}/{services.Count}"
         };
     }
-}
-
-public class AggregateSchema
-{
-    public int averageResponseTime { get; set; }
-    public string servicesUp { get; set; }
-    public string servicesCorrect { get; set; }
 }
