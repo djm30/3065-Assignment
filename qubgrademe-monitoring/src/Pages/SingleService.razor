@@ -1,16 +1,16 @@
-﻿@page "/fetchdata"
+﻿@page "/single"
 
 <PageTitle>Weather forecast</PageTitle>
 
 @using src.Data
 @inject WeatherForecastService ForecastService
+@inject MonitoringService MonitoringService
 
 <h1>Metrics</h1>
 
-<p>This component demonstrates fetching data from a service.</p>
-<div class="flex-column justify-content-between">
+<div class="flex-row justify-content-between">
     <p>Time until next check: 1:00:00</p>
-    <button class="btn-secondary">Check Now</button>
+    <button class="btn btn-secondary">Check Now</button>
 </div>
 
 @if (forecasts == null)
@@ -24,10 +24,10 @@ else
     <table class="table">
         <thead>
         <tr>
-            <th>Date</th>
-            <th>Temp. (C)</th>
-            <th>Temp. (F)</th>
-            <th>Summary</th>
+            <th>Service Name</th>
+            <th>Response Time</th>
+            <th>Status</th>
+            <th>Correct Result</th>
         </tr>
         </thead>
         <tbody>
@@ -50,6 +50,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+        await MonitoringService.RunChecksAsync();
     }
 
 }

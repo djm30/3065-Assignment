@@ -1,0 +1,54 @@
+﻿@page "/metrics"
+
+<PageTitle>Weather forecast</PageTitle>
+
+@using src.Data
+@inject MonitoringService MonitoringService
+
+<h1>Metrics</h1>
+
+<div class="flex-row justify-content-between">
+    <p>Time until next check: 1:00:00</p>
+    <button class="btn btn-secondary">Check Now</button>
+</div>
+
+@if (metrics == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Service Name</th>
+            <th>Response Time</th>
+            <th>Services Up</th>
+            <th>Services Correct</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var metric in metrics)
+        {
+            <tr role="button" onclick="">
+                <td>@metric.name</td>
+                <td>@metric.AggregateData().averageResponseTime ms</td>
+                <td>@metric.AggregateData().servicesUp</td>
+                <td>@metric.AggregateData().servicesCorrect</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<ServiceMonitorSchema> metrics;
+
+    protected override async Task OnInitializedAsync()
+    {
+        metrics = await MonitoringService.RunChecksAsync();
+    }
+
+}
