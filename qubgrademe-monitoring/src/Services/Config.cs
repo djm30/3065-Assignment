@@ -1,8 +1,9 @@
 using Newtonsoft.Json;
+using src.Data;
 using src.Exceptions;
 using ILogger = Serilog.ILogger;
 
-namespace src.Data;
+namespace src.Services;
 
 public class Config
 {

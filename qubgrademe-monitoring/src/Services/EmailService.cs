@@ -1,19 +1,29 @@
 using System.Net;
 using System.Net.Mail;
+using src.Data;
 
-namespace src.Data;
+namespace src.Services;
 
 public class EmailService
 {
     
-    private readonly Config _config;
     private DateTime _lastEmailSent = DateTime.MinValue;
     
- 
+    private readonly Config _config;
+    
     // Create a Send method that sends an email to a list of emails
-    public EmailService(Config config)
+    public EmailService(Config config, MonitoringService monitoringService)
     {
         _config = config;
+        monitoringService.ServiceStatusChanged += OnServiceStatusChanged;
+    }
+    
+    // Write an event handler for the ServiceStatusChanged event
+    private void OnServiceStatusChanged(object sender, List<ServiceMonitorSchema> ServiceStatus )
+    {
+        var emailText = EmailBody(ServiceStatus);
+        if(emailText != "")
+            Send("Service Status", emailText);
     }
 
     public void Send(string subject, string body)

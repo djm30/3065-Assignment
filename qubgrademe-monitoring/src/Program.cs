@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Serilog;
 using src.Data;
+using src.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,8 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<MonitoringService>();
 builder.Services.AddSingleton<Config>();
 builder.Services.AddSingleton<EmailService>();
+builder.Services.AddSingleton<LogResults>();
+builder.Services.AddSingleton<TimerService>();
 builder.Services.AddHttpClient();
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
@@ -37,6 +40,10 @@ app.UseRouting();
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 
+
+// Creating instances of the email and log service so they can run
+var emailService = app.Services.GetService<EmailService>();
+var logService = app.Services.GetService<LogResults>();
 
 var config = app.Services.GetService<Config>();
 await config.LoadSettings();

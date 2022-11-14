@@ -1,52 +1,30 @@
 using System.Diagnostics;
 using System.Net;
-using System.Timers;
 using Serilog;
-using Timer = System.Timers.Timer;
+using src.Data;
 
-namespace src.Data;
+namespace src.Services;
 
 public class MonitoringService
 {
-
     private List<ServiceMonitorSchema> _services;
     public DateTime LastChecked { get; private set; }
-    private readonly Timer _timer;
-    private int _counter;
-    public event EventHandler ServiceStatusChanged;
+    
+    public event EventHandler<List<ServiceMonitorSchema>> ServiceStatusChanged;
     
     private readonly Config _config;
     private readonly IHttpClientFactory _clientFactory;
     private readonly Serilog.ILogger _logger;
-    private readonly EmailService _emailService;
 
 
-
-    public MonitoringService(IHttpClientFactory clientFactory, Serilog.ILogger logger, Config config, EmailService emailService)
+    public MonitoringService(IHttpClientFactory clientFactory, Serilog.ILogger logger, Config config, TimerService timerService)
     {
         _clientFactory = clientFactory ?? throw new ArgumentNullException(nameof(clientFactory));
         _logger = logger;
         _config = config;
-        _emailService = emailService;
-        _counter = 60;
-        _timer = new Timer();
-        _timer.Interval = 1000;
-        _timer.Elapsed += TimerOnElapsed;
-        _timer.Start();
+        timerService.AddTimerDone(() => { RunChecksAsync();});
     }
-
-    private void TimerOnElapsed(object? sender, ElapsedEventArgs e)
-    {
-        // Subtract 1 from the counter
-        _counter--;
-        // If the counter is 0
-        if (_counter != 0) return;
-        // Reset the counter
-        _counter = 60;
-        // Check the services
-        RunChecksAsync();
-    }
-
+    
     public async Task RunChecksAsync()
     {
         var services = _config.Services;
@@ -77,7 +55,6 @@ public class MonitoringService
                     body = body?.Replace("\n", "");
                     serviceResult.services.Add(new MonitoringSchema()
                     {
-                        name = service.name,
                         url = url,
                         responseTime = (int)time,
                         isExpected = service.expected_result == body,
@@ -104,9 +81,6 @@ public class MonitoringService
 
         LastChecked = DateTime.Now;
         _services = serviceResults;
-        var emailString = _emailService.EmailBody(_services);
-        if(emailString != "")
-            _emailService.Send("Services are down", emailString);
         OnServiceStatusChanged();
     }
 
@@ -118,21 +92,15 @@ public class MonitoringService
 
     public async Task<List<ServiceMonitorSchema>> GetMonitorData()
     {
+        // Caching kinda thing going on
         if (_services is null)
             await RunChecksAsync();
         return _services;
     }
     
-    public void SetIntervalMethod(Action<int> method)
-    {
-        _timer.Elapsed += (sender, args) =>
-        {
-            method(_counter);
-        };
-    }
-
+    // Used to retrieve current seconds count for the frontend
     protected virtual void OnServiceStatusChanged()
     {
-        ServiceStatusChanged?.Invoke(this, EventArgs.Empty);
+        ServiceStatusChanged?.Invoke(this, _services);
     }
 }

@@ -16,7 +16,7 @@ public class Config : IConfig
     private int _port;
     private IPAddress _ipAddress;
     private bool firstRun = true;
-    
+
     public Config(ILogger<Config> logger)
     {
         _logger = logger;
@@ -31,7 +31,7 @@ public class Config : IConfig
     {
         return _ipAddress;
     }
-    
+
     public bool IsShutdown()
     {
         return false;
@@ -40,7 +40,7 @@ public class Config : IConfig
 
     public void InitiateShutdown()
     {
-        
+
     }
 
     public Dictionary<string, string> GetRouteMap()
@@ -86,18 +86,20 @@ public class Config : IConfig
         {
             firstRun = false;
         }
-        
+
     }
 
+
+    // TODO Validate if any routes or destinations have been duplicated
     private void ValidateConfig(ConfigSchema schema)
     {
         if (schema.IpAddress.Trim() == "localhost") schema.IpAddress = "127.0.0.1";
         // Validating IP Address
         if (!IPAddress.TryParse(schema.IpAddress, out var IpAddress))
             throw new ConfigurationException("Please provide a valid IP Address");
-        
+
         // Validation Port
-        if(schema.Port < 1024 && schema.Port > 65535)
+        if (schema.Port < 1024 && schema.Port > 65535)
             throw new ConfigurationException("Please provide a port in the range 1024 - 65535");
 
         // Validating Routes
@@ -107,11 +109,11 @@ public class Config : IConfig
     private void ValidateRoute(RouteSchema route)
     {
         // Validate route
-        if(!Uri.TryCreate(route.Route, UriKind.Relative, out var uri))
+        if (!Uri.TryCreate(route.Route, UriKind.Relative, out var uri))
             throw new ConfigurationException("Please provide a valid route");
         // Validate destination
-        if(!Uri.TryCreate(route.Destination, UriKind.Absolute, out var destination) ||  !(destination.Scheme == Uri.UriSchemeHttp || destination.Scheme == Uri.UriSchemeHttps))
+        if (!Uri.TryCreate(route.Destination, UriKind.Absolute, out var destination) || !(destination.Scheme == Uri.UriSchemeHttp || destination.Scheme == Uri.UriSchemeHttps))
             throw new ConfigurationException("Please provide a valid http or https address for the destination");
     }
-    
+
 }

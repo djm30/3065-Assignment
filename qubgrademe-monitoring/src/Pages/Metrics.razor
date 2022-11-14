@@ -2,8 +2,10 @@
 
 <PageTitle>Metrics</PageTitle>
 
+@using src.Services
 @using src.Data
 @inject MonitoringService MonitoringService
+@inject TimerService TimerService
 @inject NavigationManager NavManager
 
 <h1>Metrics</h1>
@@ -20,7 +22,7 @@ else
         <p>Last Checked: @MonitoringService.LastChecked</p>
         @if (Counter != 0)
         {
-            <p>Refreshing latest values in: @Counter</p>
+            <p>Refreshing latest values in: @time</p>
         }
         else
         {
@@ -55,13 +57,16 @@ else
 @code {
     private List<ServiceMonitorSchema> metrics;
     private int Counter = 0;
+    private string time;
 
     protected override async Task OnInitializedAsync()
     {
         metrics = await MonitoringService.GetMonitorData();
-        MonitoringService.SetIntervalMethod(async i =>
+        TimerService.SetIntervalMethod(async i =>
         {
             Counter = i;
+            // Convert timer into minutes and seconds
+            time = $"{i / 60:00}:{i % 60:00}";
             await InvokeAsync(StateHasChanged);
         });
         MonitoringService.ServiceStatusChanged +=  (sender, args) =>

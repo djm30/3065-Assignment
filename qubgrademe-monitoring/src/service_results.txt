@@ -1,0 +1,55 @@
+[14/11/2022 22:51:46] Sorted
+http://localhost:9001 59 OK True
+
+MaxMin
+http://localhost:9002 7 OK True
+
+Marks for next
+http://localhost:9003 22 OK True
+
+Classify
+http://localhost:9004 21 OK True
+
+Non Existent Service
+http://localhost:8080 28 NotFound False
+
+Non Non Existent Service
+http://localhost:2000 0 UnavailableForLegalReasons False
+
+[ END ][14/11/2022 22:53:04] Sorted
+http://localhost:9001 80 OK True
+
+MaxMin
+http://localhost:9002 10 OK True
+
+Marks for next
+http://localhost:9003 17 OK True
+
+Classify
+http://localhost:9004 21 OK True
+
+Non Existent Service
+http://localhost:8080 9 NotFound False
+
+Non Non Existent Service
+http://localhost:2000 0 UnavailableForLegalReasons False
+
+[ END ][14/11/2022 22:55:55] Sorted
+http://localhost:9001 82 OK True
+
+MaxMin
+http://localhost:9002 8 OK True
+
+Marks for next
+http://localhost:9003 12 OK True
+
+Classify
+http://localhost:9004 25 OK True
+
+Non Existent Service
+http://localhost:8080 8 NotFound False
+
+Non Non Existent Service
+http://localhost:2000 0 UnavailableForLegalReasons False
+
+[ END ]
