@@ -11,6 +11,7 @@ public class Config
         _logger = logger;
     }
 
+    public List<string> Emails { get; set; }
     public List<ServiceSchema> Services { get; private set; }
     private readonly ILogger _logger;
     private bool firstRun = true;
@@ -23,6 +24,7 @@ public class Config
         {
             var config = JsonConvert.DeserializeObject<ConfigSchema>(raw);
             ValidateConfig(config.Services);
+            Emails = config.Emails;
             Services = config.Services;
         }
         catch (JsonReaderException e)

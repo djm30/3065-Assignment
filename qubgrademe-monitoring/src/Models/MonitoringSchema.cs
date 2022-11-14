@@ -5,6 +5,7 @@ using System.Linq;
 
 public class MonitoringSchema
 {
+    public string name { get; set; }
     public string url { get; set; }
     public HttpStatusCode statusCode { get; set; }
     public bool isExpected { get; set; }

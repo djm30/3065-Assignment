@@ -18,15 +18,17 @@ public class MonitoringService
     private readonly Config _config;
     private readonly IHttpClientFactory _clientFactory;
     private readonly Serilog.ILogger _logger;
+    private readonly EmailService _emailService;
 
 
 
-    public MonitoringService(IHttpClientFactory clientFactory, Serilog.ILogger logger, Config config)
+    public MonitoringService(IHttpClientFactory clientFactory, Serilog.ILogger logger, Config config, EmailService emailService)
     {
         _clientFactory = clientFactory ?? throw new ArgumentNullException(nameof(clientFactory));
         _logger = logger;
         _config = config;
-        _counter = 10;
+        _emailService = emailService;
+        _counter = 60;
         _timer = new Timer();
         _timer.Interval = 1000;
         _timer.Elapsed += TimerOnElapsed;
@@ -75,6 +77,7 @@ public class MonitoringService
                     body = body?.Replace("\n", "");
                     serviceResult.services.Add(new MonitoringSchema()
                     {
+                        name = service.name,
                         url = url,
                         responseTime = (int)time,
                         isExpected = service.expected_result == body,
@@ -101,6 +104,9 @@ public class MonitoringService
 
         LastChecked = DateTime.Now;
         _services = serviceResults;
+        var emailString = _emailService.EmailBody(_services);
+        if(emailString != "")
+            _emailService.Send("Services are down", emailString);
         OnServiceStatusChanged();
     }
 
