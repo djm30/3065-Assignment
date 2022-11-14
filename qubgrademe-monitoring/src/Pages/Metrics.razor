@@ -18,6 +18,14 @@ else
 {
     <div class="flex-row justify-content-between">
         <p>Last Checked: @MonitoringService.LastChecked</p>
+        @if (Counter != 0)
+        {
+            <p>Refreshing latest values in: @Counter</p>
+        }
+        else
+        {
+            <p>Fetching Results!</p>
+        }
         <button class="btn btn-info" @onclick="RefreshResults">Check Now</button>
     </div>
 
@@ -46,15 +54,27 @@ else
 
 @code {
     private List<ServiceMonitorSchema> metrics;
+    private int Counter = 0;
 
     protected override async Task OnInitializedAsync()
     {
         metrics = await MonitoringService.GetMonitorData();
+        MonitoringService.SetIntervalMethod(async i =>
+        {
+            Counter = i;
+            await InvokeAsync(StateHasChanged);
+        });
+        MonitoringService.ServiceStatusChanged +=  (sender, args) =>
+        {
+            metrics = MonitoringService.GetMonitorDataSync();
+            InvokeAsync(StateHasChanged);
+        };
     }
 
     private async void RefreshResults()
     {
-        metrics = await MonitoringService.RunChecksAsync();
+        await MonitoringService.RunChecksAsync();
+        metrics = await MonitoringService.GetMonitorData();
         StateHasChanged();
     }
 
@@ -62,5 +82,4 @@ else
     {
         NavManager.NavigateTo("/service/" + serviceName);
     }
-
 }

@@ -10,6 +10,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<MonitoringService>();
 builder.Services.AddSingleton<Config>();
+builder.Services.AddSingleton<EmailService>();
 builder.Services.AddHttpClient();
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
