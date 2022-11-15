@@ -37,14 +37,17 @@ public class EmailService
         
         // Create a new MailMessage object
         MailMessage mail = new MailMessage();
+        
+        var FromEmail = Environment.GetEnvironmentVariable("FROM_EMAIL");
+        var FromPassword = Environment.GetEnvironmentVariable("APP_PASSWORD");
 
         // Set the sender address of the mail message
-        mail.From = new MailAddress(Secrets.FromEmail);
+        mail.From = new MailAddress(FromEmail);
 
         // Connect to google smtp server
         var smtp = new SmtpClient("smtp.gmail.com", 587)
         {
-            Credentials = new NetworkCredential(Secrets.FromEmail, Secrets.GmailAppPassword),
+            Credentials = new NetworkCredential(FromEmail, FromPassword),
             EnableSsl = true
         };
 
