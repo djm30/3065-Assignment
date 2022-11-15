@@ -113,10 +113,12 @@ public class Config : IConfig
             throw new ConfigurationException("Please provide a valid IP Address");
 
         // Validation Port
-        if (schema.Port < 1024 && schema.Port > 65535)
+        if (schema.Port < 1024 || schema.Port > 65535)
             throw new ConfigurationException("Please provide a port in the range 1024 - 65535");
 
         // Validating Routes
+        if(schema.Routes.Count == 0)
+            throw new ConfigurationException("Please provide some routes");
         schema.Routes.ForEach(ValidateRoute);
     }
 
@@ -124,10 +126,10 @@ public class Config : IConfig
     {
         // Validate route
         if (!Uri.TryCreate(route.Route, UriKind.Relative, out var uri))
-            throw new ConfigurationException("Please provide a valid route");
+            throw new ConfigurationException("Please provide a valid route for each service: at " + route.Route);
         // Validate destination
         if (!Uri.TryCreate(route.Destination, UriKind.Absolute, out var destination) || !(destination.Scheme == Uri.UriSchemeHttp || destination.Scheme == Uri.UriSchemeHttps))
-            throw new ConfigurationException("Please provide a valid http or https address for the destination");
+            throw new ConfigurationException("Please provide a valid http or https address for the destination: at " + route.Destination);
     }
 
 }

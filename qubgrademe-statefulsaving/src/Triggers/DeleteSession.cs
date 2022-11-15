@@ -16,7 +16,7 @@ public static class DeleteSession
 {
     [FunctionName("DeleteSession")]
     public static async Task<IActionResult> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Function, "delete", Route = null)] HttpRequest req, ILogger log)
+        [HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = null)] HttpRequest req, ILogger log)
     {
         // Get session id from query
         string sessionId = req.Query["sessionId"];
@@ -24,13 +24,13 @@ public static class DeleteSession
         {
             return new BadRequestObjectResult("Please pass a sessionId on the query string or in the request body");
         }
-        
-        
+
+
         await using var service = SqlConnectionService.GetConnection();
         try
         {
             var sql = "DELETE FROM [dbo].[Data] WHERE SessionId = @SessionId";
-            await service.ExecuteAsync(sql, new {SessionId = sessionId});
+            await service.ExecuteAsync(sql, new { SessionId = sessionId });
             return new OkResult();
         }
         catch (Exception e)
