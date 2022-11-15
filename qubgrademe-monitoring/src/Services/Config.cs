@@ -7,6 +7,11 @@ namespace src.Services;
 
 public class Config
 {
+
+    public List<string> Emails { get; set; }
+    public List<ServiceSchema> Services { get; protected set; }
+    private readonly ILogger _logger;
+    private bool firstRun = true;
     private string path;
     public Config(ILogger logger)
     {
@@ -19,10 +24,7 @@ public class Config
         };
     }
 
-    public List<string> Emails { get; set; }
-    public List<ServiceSchema> Services { get; private set; }
-    private readonly ILogger _logger;
-    private bool firstRun = true;
+
     
     public async Task LoadSettings()
     {
@@ -57,7 +59,7 @@ public class Config
                 throw new ConfigurationException("Please provide a name for every service");
             if (service.urls.Count == 0)
                 throw new ConfigurationException("Please provide a URL for the service. (In an array)");
-            if (string.IsNullOrWhiteSpace(service.expected_result))
+            if (service.expected_result is null)
                 throw new ConfigurationException("Please provide the raw data for the expected result of the service");
         }
     }

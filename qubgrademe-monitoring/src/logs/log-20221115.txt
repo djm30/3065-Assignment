@@ -47,3 +47,19 @@ System.Net.Http.HttpRequestException: Connection refused (localhost:2000)
    at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
    at src.Services.MonitoringService.RunChecksAsync() in /Users/dylan/Code/CSC3065/Assignment2/qubgrademe-monitoring/src/Services/MonitoringService.cs:line 51
 2022-11-15 13:03:55.729 +00:00 [INF] Application is shutting down...
+2022-11-15 14:59:16.852 +00:00 [INF] Now listening on: https://localhost:7147
+2022-11-15 14:59:16.871 +00:00 [INF] Now listening on: http://localhost:5159
+2022-11-15 14:59:16.873 +00:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-11-15 14:59:16.873 +00:00 [INF] Hosting environment: Development
+2022-11-15 14:59:16.873 +00:00 [INF] Content root path: /Users/dylan/Code/CSC3065/Assignment2/qubgrademe-monitoring/src/
+2022-11-15 14:59:17.795 +00:00 [INF] Application is shutting down...
+2022-11-15 15:13:42.966 +00:00 [INF] Now listening on: https://localhost:7147
+2022-11-15 15:13:42.976 +00:00 [INF] Now listening on: http://localhost:5159
+2022-11-15 15:13:42.977 +00:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-11-15 15:13:42.977 +00:00 [INF] Hosting environment: Development
+2022-11-15 15:13:42.977 +00:00 [INF] Content root path: /Users/dylan/Code/CSC3065/Assignment2/qubgrademe-monitoring/src/
+2022-11-15 15:16:10.208 +00:00 [INF] Now listening on: https://localhost:7147
+2022-11-15 15:16:10.222 +00:00 [INF] Now listening on: http://localhost:5159
+2022-11-15 15:16:10.222 +00:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-11-15 15:16:10.222 +00:00 [INF] Hosting environment: Development
+2022-11-15 15:16:10.222 +00:00 [INF] Content root path: /Users/dylan/Code/CSC3065/Assignment2/qubgrademe-monitoring/src/
