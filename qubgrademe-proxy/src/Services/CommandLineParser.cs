@@ -16,6 +16,7 @@ public class CommandLineParser : ICommandLineParser
     {
         while (true)
         {
+            PrintRoutes();
             var result = Console.ReadLine();
             switch (result?.Trim())
             {
@@ -23,10 +24,9 @@ public class CommandLineParser : ICommandLineParser
                     Environment.Exit(0);
                     break;
                 case "/reload":
-                    Console.WriteLine("Updating settings!");
                     _config.LoadSettings();
                     break;
-                case "/print":
+                case "/list":
                     PrintRoutes();
                     break;
                 case "/help":
@@ -57,7 +57,7 @@ public class CommandLineParser : ICommandLineParser
     {
         Console.WriteLine("\n/exit → Exits the program");
         Console.WriteLine("/reload → Reloads the json config file");
-        Console.WriteLine("/print → Prints current proxy bindings");
+        Console.WriteLine("/list → Prints current proxy bindings");
         Console.WriteLine("/clear → Clears current console output");
     }
 }

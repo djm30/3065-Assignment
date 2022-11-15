@@ -21,13 +21,13 @@ using IHost host = Host.CreateDefaultBuilder(args).ConfigureAppConfiguration(app
         .AddSingleton<IRequestParser, RequestParser>()
         .AddSingleton<IRequestMaker, RequestMaker>()
         .AddSingleton<IConfig, Config>()
-        .AddSingleton<IResponsePage, ResponsePage>()
+        .AddSingleton<IResponseBuilder, ResponseBuilder>()
         .AddLogging()
     )
     .Build();
     
     await host.StartAsync();
 
-await host.Services.GetRequiredService<IConfig>().LoadSettings();
+host.Services.GetRequiredService<IConfig>().LoadSettings();
 await host.Services.GetRequiredService<IEntrypoint>().Run();
 

@@ -30,12 +30,26 @@ services:
     build: ./qubgrademe-classifygrade
     ports:
       - "9004:80"
+
+  proxy:
+    container_name: proxy
+    stdin_open: true # docker run -i
+    build: ./qubgrademe-proxy
+    ports:
+      - "9005:80"
     
   total:
     container_name: total
     build: ./qubgrademe-totalmarks
     ports:
     - "9006:80"
+
+  monitoring:
+    container_name: monitoring
+    stdin_open: true # docker run -i
+    build: ./qubgrademe-monitoring
+    ports:
+    - "9007:80"
 
   portainer:
     image: portainer/portainer-ce

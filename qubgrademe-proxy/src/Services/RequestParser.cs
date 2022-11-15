@@ -41,6 +41,19 @@ public class RequestParser : IRequestParser
             var headerSplit = header.Split(" ");
             // Get the base route of the request somehow
             var url = headerSplit[1];
+            
+            // Check if URL is either a reload or health check
+            if (url.StartsWith("/health"))
+            {
+                response.HealthCheck = true;
+                return response;
+            }
+            if(url.StartsWith("/reload"))
+            {
+                _config.LoadSettings();
+                response.Reload = true;
+                return response;
+            }
 
             // Need to see if there is a query string
             var query = getQueryString(url);

@@ -1,0 +1,19 @@
+[  START  ][15/11/2022 13:01:57] Sorted
+http://localhost:9001 79 OK True
+
+MaxMin
+http://localhost:9002 14 OK True
+
+Marks for next
+http://localhost:9003 24 OK True
+
+Classify
+http://localhost:9004 34 OK True
+
+Non Existent Service
+http://localhost:8080 8 NotFound False
+
+Non Non Existent Service
+http://localhost:2000 0 ServiceUnavailable False
+
+[   END   ]

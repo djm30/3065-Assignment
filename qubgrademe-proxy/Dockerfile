@@ -1,0 +1,26 @@
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+WORKDIR /app
+EXPOSE 80
+EXPOSE 443
+
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+WORKDIR /src
+COPY ["./src/proxy.csproj", "src/"]
+RUN dotnet restore "src/proxy.csproj"
+COPY . .
+WORKDIR "/src/src"
+RUN dotnet build "proxy.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "proxy.csproj" -c Release -o /app/publish
+
+FROM base AS final
+
+# ENSURING VIM IS INSTALLED
+RUN apt-get update
+RUN apt-get install -y vim
+
+WORKDIR /app
+ENV ENV=DEVELOPMENT
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "proxy.dll"]

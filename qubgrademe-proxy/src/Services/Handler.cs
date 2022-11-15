@@ -11,14 +11,14 @@ public class Handler : IConnectionHandler
     private readonly ILogger<Handler> _logger;
     private readonly IRequestParser _parser;
     private readonly IRequestMaker _requestMaker;
-    private readonly IResponsePage _responsePage;
+    private readonly IResponseBuilder _responseBuilder;
 
-    public Handler(ILogger<Handler> logger, IRequestParser parser, IRequestMaker requestMaker, IResponsePage responsePage)
+    public Handler(ILogger<Handler> logger, IRequestParser parser, IRequestMaker requestMaker, IResponseBuilder responseBuilder)
     {
         _logger = logger;
         _parser = parser;
         _requestMaker = requestMaker;
-        _responsePage = responsePage;
+        _responseBuilder = responseBuilder;
     }
 
     public async Task Handle(TcpClient client)
@@ -41,13 +41,26 @@ public class Handler : IConnectionHandler
 
         if (newRequest.Valid)
         {
-            // Make HTTP Request here
-            var response = await _requestMaker.MakeRequest(newRequest.Host, newRequest.Request);
-            msg = Encoding.ASCII.GetBytes(response);
+            if (newRequest.HealthCheck)
+            {
+                var okResponse = _responseBuilder.BuildJson(200, "OK", new { Message = "OK" });
+                msg = Encoding.ASCII.GetBytes(okResponse);
+            }
+            else if (newRequest.Reload)
+            {
+                var reloadResponse = _responseBuilder.BuildJson(200, "OK", new { Message = "Reloaded Config" });
+                msg = Encoding.ASCII.GetBytes(reloadResponse);
+            }
+            else
+            {
+                // Make HTTP Request here
+                var response = await _requestMaker.MakeRequest(newRequest.Host, newRequest.Request);
+                msg = Encoding.ASCII.GetBytes(response);
+            }
         }
         else
         {
-            var notFound = _responsePage.BuildPage(404, "NOT FOUND", "Not Found",
+            var notFound = _responseBuilder.BuildPage(404, "NOT FOUND", "Not Found",
                 "Has the url been configured in the config file?");
             msg = System.Text.Encoding.ASCII.GetBytes(notFound);
         }

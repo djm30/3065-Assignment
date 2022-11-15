@@ -1,0 +1,35 @@
+{
+  "ipaddress": "0.0.0.0",
+  "port": 80,
+
+  "routes": [
+    {
+      "route": "/total",
+      "destination": "http://localhost:8080"
+    },
+    {
+      "route": "/next",
+      "destination": "http://localhost:9003"
+    },
+    {
+      "route": "/sort",
+      "destination": "http://localhost:9001"
+    },
+    {
+      "route": "/max",
+      "destination": "http://localhost:9002"
+    },
+    {
+      "route": "/classify",
+      "destination": "http://localhost:9004"
+    },
+    {
+      "route": "/mean",
+      "destination": "https://meanmark-service-development.azurewebsites.net/api/mean"
+    },
+    {
+      "route": "/dogs",
+      "destination": "https://dog.ceo/api/breeds/image/random"
+    }
+  ]
+}

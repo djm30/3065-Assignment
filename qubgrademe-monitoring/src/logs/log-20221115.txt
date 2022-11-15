@@ -1,0 +1,49 @@
+2022-11-15 13:01:48.945 +00:00 [INF] Now listening on: https://localhost:7147
+2022-11-15 13:01:48.965 +00:00 [INF] Now listening on: http://localhost:5159
+2022-11-15 13:01:48.966 +00:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-11-15 13:01:48.966 +00:00 [INF] Hosting environment: Development
+2022-11-15 13:01:48.966 +00:00 [INF] Content root path: /Users/dylan/Code/CSC3065/Assignment2/qubgrademe-monitoring/src/
+2022-11-15 13:01:55.486 +00:00 [INF] Start processing HTTP request GET "http://localhost:9001/?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=10&mark_2=10&mark_3=20&mark_4=10&mark_5=30"
+2022-11-15 13:01:55.491 +00:00 [INF] Sending HTTP request GET "http://localhost:9001/?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=10&mark_2=10&mark_3=20&mark_4=10&mark_5=30"
+2022-11-15 13:01:55.557 +00:00 [INF] Received HTTP response headers after 63.2905ms - 200
+2022-11-15 13:01:55.558 +00:00 [INF] End processing HTTP request after 76.2772ms - 200
+2022-11-15 13:01:55.560 +00:00 [INF] Start processing HTTP request GET "http://localhost:9002/?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=10&mark_2=10&mark_3=20&mark_4=10&mark_5=30"
+2022-11-15 13:01:55.561 +00:00 [INF] Sending HTTP request GET "http://localhost:9002/?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=10&mark_2=10&mark_3=20&mark_4=10&mark_5=30"
+2022-11-15 13:01:55.575 +00:00 [INF] Received HTTP response headers after 14.422ms - 200
+2022-11-15 13:01:55.575 +00:00 [INF] End processing HTTP request after 14.7235ms - 200
+2022-11-15 13:01:55.575 +00:00 [INF] Start processing HTTP request GET "http://localhost:9003/?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=10&mark_2=10&mark_3=20&mark_4=10&mark_5=30"
+2022-11-15 13:01:55.575 +00:00 [INF] Sending HTTP request GET "http://localhost:9003/?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=10&mark_2=10&mark_3=20&mark_4=10&mark_5=30"
+2022-11-15 13:01:55.599 +00:00 [INF] Received HTTP response headers after 23.7667ms - 200
+2022-11-15 13:01:55.599 +00:00 [INF] End processing HTTP request after 23.982ms - 200
+2022-11-15 13:01:55.600 +00:00 [INF] Start processing HTTP request GET "http://localhost:9004/?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=10&mark_2=10&mark_3=20&mark_4=10&mark_5=30"
+2022-11-15 13:01:55.600 +00:00 [INF] Sending HTTP request GET "http://localhost:9004/?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=10&mark_2=10&mark_3=20&mark_4=10&mark_5=30"
+2022-11-15 13:01:55.628 +00:00 [INF] Received HTTP response headers after 28.6222ms - 200
+2022-11-15 13:01:55.629 +00:00 [INF] End processing HTTP request after 29.0239ms - 200
+2022-11-15 13:01:55.634 +00:00 [INF] Start processing HTTP request GET "http://localhost:8080/?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=10&mark_2=10&mark_3=20&mark_4=10&mark_5=30"
+2022-11-15 13:01:55.634 +00:00 [INF] Sending HTTP request GET "http://localhost:8080/?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=10&mark_2=10&mark_3=20&mark_4=10&mark_5=30"
+2022-11-15 13:01:55.642 +00:00 [INF] Received HTTP response headers after 8.0466ms - 404
+2022-11-15 13:01:55.642 +00:00 [INF] End processing HTTP request after 8.3301ms - 404
+2022-11-15 13:01:55.643 +00:00 [INF] Start processing HTTP request GET "http://localhost:2000/?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=10&mark_2=10&mark_3=20&mark_4=10&mark_5=30"
+2022-11-15 13:01:55.643 +00:00 [INF] Sending HTTP request GET "http://localhost:2000/?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=10&mark_2=10&mark_3=20&mark_4=10&mark_5=30"
+2022-11-15 13:01:55.650 +00:00 [ERR] Error when sending HTTP request
+System.Net.Http.HttpRequestException: Connection refused (localhost:2000)
+ ---> System.Net.Sockets.SocketException (61): Connection refused
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|277_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(HttpRequestMessage request)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at src.Services.MonitoringService.RunChecksAsync() in /Users/dylan/Code/CSC3065/Assignment2/qubgrademe-monitoring/src/Services/MonitoringService.cs:line 51
+2022-11-15 13:03:55.729 +00:00 [INF] Application is shutting down...

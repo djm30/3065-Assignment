@@ -1,18 +1,11 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Azure.Identity;
-using Azure.Security.KeyVault.Secrets;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Logging;
-using Microsoft.Data.Sql;
 using Newtonsoft.Json;
 using Dapper;
 
@@ -33,7 +26,7 @@ public static class RetrieveSession
         {
             return new BadRequestObjectResult("Please pass a sessionId on the query string or in the request body");
         }
-
+        
         await using var service = SqlConnectionService.GetConnection();
         try
         {

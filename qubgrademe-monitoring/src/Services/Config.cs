@@ -7,9 +7,16 @@ namespace src.Services;
 
 public class Config
 {
+    private string path;
     public Config(ILogger logger)
     {
         _logger = logger;
+        path = Environment.GetEnvironmentVariable("ENV") switch
+        {
+            "DEVELOPMENT" => "./config.development.json",
+            "PRODUCTION" => "./config.production.json",
+            _ => "./config.local.json"
+        };
     }
 
     public List<string> Emails { get; set; }
@@ -19,7 +26,7 @@ public class Config
     
     public async Task LoadSettings()
     {
-        using var reader = new StreamReader("./config.json");
+        using var reader = new StreamReader(path);
         var raw = await reader.ReadToEndAsync();
         try
         {

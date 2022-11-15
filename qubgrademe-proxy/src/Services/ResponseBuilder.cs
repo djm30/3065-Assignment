@@ -1,9 +1,10 @@
 using System.Text;
 using Proxy.ServiceDefinitions;
+using Newtonsoft.Json;
 
 namespace Proxy.Services;
 
-public class ResponsePage : IResponsePage
+public class ResponseBuilder : IResponseBuilder
 {
     public string BuildPage(int statusCode, string statusMessage, string heading, string info)
     {
@@ -26,6 +27,29 @@ public class ResponsePage : IResponsePage
         builder.Append("Keep-Alive: timeout=5\r\n\r\n");
         builder.Append(h1);
         builder.Append(p);
+
+        return builder.ToString();
+    }
+
+    public string BuildJson(int statusCode, string statusMessage, object data)
+    {
+        var firstHeader = $"HTTP/1.1 {statusCode} {statusMessage}\r\n";
+        var body = JsonConvert.SerializeObject(data);
+
+
+        var contentLength = Encoding.ASCII.GetBytes(body).Length;
+        var contentLengthHeader = $"Content-Length: {contentLength}\r\n";
+
+        var builder = new StringBuilder();
+        // Sends a 404 if not found
+        builder.Append(firstHeader);
+        builder.Append("Access-Control-Allow-Origin: *\r\n");
+        builder.Append("Content-Type: application/json; charset=utf-8\r\n");
+        builder.Append(contentLengthHeader);
+        builder.Append("Date: " + DateTime.Now.ToString("r") + "\r\n");
+        builder.Append("Connection: keep-alive\r\n");
+        builder.Append("Keep-Alive: timeout=5\r\n\r\n");
+        builder.Append(body);
 
         return builder.ToString();
     }

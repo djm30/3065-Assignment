@@ -13,12 +13,12 @@ public class RequestMaker : IRequestMaker
 {
 
     private readonly ILogger<RequestMaker> _logger;
-    private readonly IResponsePage _responsePage;
+    private readonly IResponseBuilder _responseBuilder;
 
-    public RequestMaker(ILogger<RequestMaker> logger, IResponsePage responsePage)
+    public RequestMaker(ILogger<RequestMaker> logger, IResponseBuilder responseBuilder)
     {
         _logger = logger;
-        _responsePage = responsePage;
+        _responseBuilder = responseBuilder;
     }
 
     public async Task<string> MakeRequest(Uri host, IEnumerable<byte> request)
@@ -65,7 +65,7 @@ public class RequestMaker : IRequestMaker
         catch (Exception e)
         {
             _logger.LogError(e, "Error occured while forwarding request to destination");
-            response = _responsePage.BuildPage(500, "INTERNAL SERVER ERROR", "Internal Server Error",
+            response = _responseBuilder.BuildPage(500, "INTERNAL SERVER ERROR", "Internal Server Error",
                 "An error has occured when making the response");
         }
 

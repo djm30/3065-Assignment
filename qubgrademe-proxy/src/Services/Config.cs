@@ -16,10 +16,23 @@ public class Config : IConfig
     private int _port;
     private IPAddress _ipAddress;
     private bool firstRun = true;
+    private string path;
 
     public Config(ILogger<Config> logger)
     {
         _logger = logger;
+        switch (Environment.GetEnvironmentVariable("ENV"))
+        {
+            case "DEVELOPMENT":
+                path = "./config.development.json";
+                break;
+            case "PRODUCTION":
+                path = "./config.production.json";
+                break;
+            default:
+                path = "./config.local.json";
+                break;
+        }
     }
 
     public int GetPort()
@@ -48,10 +61,10 @@ public class Config : IConfig
         return routeMaps;
     }
 
-    public async Task LoadSettings()
+    public void LoadSettings()
     {
-        using var reader = new StreamReader("./config.json");
-        var raw = await reader.ReadToEndAsync();
+        using var reader = new StreamReader(path);
+        var raw =  reader.ReadToEnd();
         try
         {
             var config = JsonConvert.DeserializeObject<ConfigSchema>(raw);
@@ -66,6 +79,7 @@ public class Config : IConfig
                     x.Destination = x.Destination.Replace("localhost", "127.0.0.1");
                 routeMaps.Add(x.Route, x.Destination);
             });
+            Console.WriteLine("Config loaded");
         }
         catch (JsonReaderException e)
         {

@@ -9,9 +9,9 @@ public class MonitoringService
 {
     private List<ServiceMonitorSchema> _services;
     public DateTime LastChecked { get; private set; }
-    
+
     public event EventHandler<List<ServiceMonitorSchema>> ServiceStatusChanged;
-    
+
     private readonly Config _config;
     private readonly IHttpClientFactory _clientFactory;
     private readonly Serilog.ILogger _logger;
@@ -22,16 +22,16 @@ public class MonitoringService
         _clientFactory = clientFactory ?? throw new ArgumentNullException(nameof(clientFactory));
         _logger = logger;
         _config = config;
-        timerService.AddTimerDone(() => { RunChecksAsync();});
+        timerService.AddTimerDone(() => { RunChecksAsync(); });
     }
-    
+
     public async Task RunChecksAsync()
     {
         var services = _config.Services;
         var client = _clientFactory.CreateClient();
 
         var serviceResults = new List<ServiceMonitorSchema>();
-        
+
         // Need to go through each service
         // Then foreach service, go through each url
         foreach (var service in services)
@@ -69,7 +69,7 @@ public class MonitoringService
                         url = url,
                         responseTime = 0,
                         isExpected = false,
-                        statusCode = HttpStatusCode.UnavailableForLegalReasons,
+                        statusCode = HttpStatusCode.ServiceUnavailable,
                         actual_result = ""
                     });
                     _logger.Error(e, "Error when sending HTTP request");
@@ -97,7 +97,7 @@ public class MonitoringService
             await RunChecksAsync();
         return _services;
     }
-    
+
     // Used to retrieve current seconds count for the frontend
     protected virtual void OnServiceStatusChanged()
     {

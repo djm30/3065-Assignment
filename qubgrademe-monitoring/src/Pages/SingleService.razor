@@ -37,7 +37,7 @@ else
             <tr>
                 <td>@result.url</td>
                 <td>@result.responseTime ms</td>
-                <td>@(result.statusCode != HttpStatusCode.UnavailableForLegalReasons ? $"{(int)result.statusCode,-3}, {result.statusCode}" : "Service Not Found")</td>
+                <td>@(result.statusCode != HttpStatusCode.ServiceUnavailable ? $"{(int)result.statusCode,-3}, {result.statusCode}" : "Service Not Found")</td>
                 <td  role="button" title="Expected: @service.expected_value Actual: @result.actual_result">@result.isExpected</td>
             </tr>
         }

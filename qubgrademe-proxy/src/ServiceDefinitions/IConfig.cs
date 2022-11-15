@@ -12,5 +12,5 @@ public interface  IConfig
 
     public Dictionary<string, string> GetRouteMap();
     
-    public Task LoadSettings();
+    public void LoadSettings();
 }

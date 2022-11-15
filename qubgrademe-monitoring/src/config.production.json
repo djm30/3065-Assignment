@@ -1,0 +1,55 @@
+{
+  "Emails": [
+    "dmorrison18@qub.ac.uk"
+  ],
+  "Services": [
+    {
+      "name": "Sorted",
+      "query_string" : "?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=10&mark_2=10&mark_3=20&mark_4=10&mark_5=30",
+      "urls": [
+        "http://localhost:9001"
+      ],
+      "expected_result": "{\"error\":false,\"errorMessage\":\"\",\"modules\":[\"One\",\"Two\",\"Three\",\"Four\",\"Five\"],\"marks\":[10,10,20,10,30],\"sorted_modules\":[{\"module\":\"Five\",\"marks\":30},{\"module\":\"Three\",\"marks\":20},{\"module\":\"One\",\"marks\":10},{\"module\":\"Two\",\"marks\":10},{\"module\":\"Four\",\"marks\":10}]}"
+    },
+    {
+      "name": "MaxMin",
+      "query_string" : "?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=10&mark_2=10&mark_3=20&mark_4=10&mark_5=30",
+      "urls": [
+        "http://localhost:9002"
+      ],
+      "expected_result": "{\"error\":false,\"errorMessage\":\"\",\"modules\":[\"One\",\"Two\",\"Three\",\"Four\",\"Five\"],\"marks\":[10,10,20,10,30],\"max_module\":\"Five - 30\",\"min_module\":\"Four - 10\"}"
+    },
+    {
+      "name": "Marks for next",
+      "query_string" : "?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=10&mark_2=10&mark_3=20&mark_4=10&mark_5=30",
+      "urls": [
+        "http://localhost:9003"
+      ],
+      "expected_result": "{\"error\":false,\"errorMessage\":\"\",\"modules\":[\"One\",\"Two\",\"Three\",\"Four\",\"Five\"],\"marks\":[10,10,20,10,30],\"marks_required\":\"Your current overall mark is: 16.0, and is 24.0 marks from a Third, you need a total of 120.0 more marks across all 5 possible modules to reach this.\"}"
+    },
+    {
+      "name": "Classify",
+      "query_string" : "?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=10&mark_2=10&mark_3=20&mark_4=10&mark_5=30",
+      "urls": [
+        "http://localhost:9004"
+      ],
+      "expected_result": "{\"error\":false,\"errorMessage\":\"\",\"grade\":\"Fail\",\"marks\":[10,10,20,10,30],\"modules\":[\"One\",\"Two\",\"Three\",\"Four\",\"Five\"]}"
+    },
+    {
+      "name": "Non Existent Service",
+      "query_string" : "?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=10&mark_2=10&mark_3=20&mark_4=10&mark_5=30",
+      "urls": [
+        "http://localhost:8080"
+      ],
+      "expected_result": "{\"error\":false,\"errorMessage\":\"\",\"modules\":[\"One\",\"Two\",\"Three\",\"Four\",\"Five\"],\"marks\":[10,10,20,10,30],\"sorted_modules\":[{\"module\":\"Five\",\"marks\":30},{\"module\":\"Three\",\"marks\":20},{\"module\":\"One\",\"marks\":10},{\"module\":\"Two\",\"marks\":10},{\"module\":\"Four\",\"marks\":10}]}"
+    },
+    {
+      "name": "Non Non Existent Service",
+      "query_string" : "?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=10&mark_2=10&mark_3=20&mark_4=10&mark_5=30",
+      "urls": [
+        "http://localhost:2000"
+      ],
+      "expected_result": "{\"error\":false,\"errorMessage\":\"\",\"modules\":[\"One\",\"Two\",\"Three\",\"Four\",\"Five\"],\"marks\":[10,10,20,10,30],\"sorted_modules\":[{\"module\":\"Five\",\"marks\":30},{\"module\":\"Three\",\"marks\":20},{\"module\":\"One\",\"marks\":10},{\"module\":\"Two\",\"marks\":10},{\"module\":\"Four\",\"marks\":10}]}"
+    }
+  ]
+}
