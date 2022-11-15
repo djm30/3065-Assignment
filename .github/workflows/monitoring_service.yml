@@ -1,4 +1,4 @@
-name: .NET
+name: Monitoring Service
 
 on:
   push:
