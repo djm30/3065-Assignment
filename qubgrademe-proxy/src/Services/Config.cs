@@ -64,7 +64,7 @@ public class Config : IConfig
     public void LoadSettings()
     {
         using var reader = new StreamReader(path);
-        var raw =  reader.ReadToEnd();
+        var raw = reader.ReadToEnd();
         try
         {
             var config = JsonConvert.DeserializeObject<ConfigSchema>(raw);
@@ -113,11 +113,11 @@ public class Config : IConfig
             throw new ConfigurationException("Please provide a valid IP Address");
 
         // Validation Port
-        if (schema.Port < 1024 || schema.Port > 65535)
-            throw new ConfigurationException("Please provide a port in the range 1024 - 65535");
+        // if ((schema.Port < 1024 || schema.Port > 65535) && (schema.Port != 80 || schema.Port != 443))
+        //     throw new ConfigurationException("Please provide a port in the range 1024 - 65535");
 
         // Validating Routes
-        if(schema.Routes.Count == 0)
+        if (schema.Routes.Count == 0)
             throw new ConfigurationException("Please provide some routes");
         schema.Routes.ForEach(ValidateRoute);
     }

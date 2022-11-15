@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: classifygrade-deployment
+  labels:
+    tier: backend
+spec:
+  selector:
+    matchLabels:
+      app: v1
+      service: classifygrade
+  replicas: 2
+  template:
+    metadata:
+      name: classifygrade
+      labels:
+        app: v1
+        service: classifygrade
+    spec:
+      containers:
+        - name: classifygrade
+          image: assignment2registry3065.azurecr.io/classifygrade:latest
+          ports:
+            - name: classifygrade
+              containerPort: 80
+          env:
+          - name: PORT
+            value: "80"

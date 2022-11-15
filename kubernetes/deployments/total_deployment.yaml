@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: total-deployment
+  labels:
+    tier: backend
+spec:
+  selector:
+    matchLabels:
+      app: v1
+      service: totalmarks
+  replicas: 2
+  template:
+    metadata:
+      name: totalmarks
+      labels:
+        app: v1
+        service: totalmarks
+    spec:
+      containers:
+        - name: totalmarks
+          image: assignment2registry3065.azurecr.io/totalmarks:latest
+          ports:
+            - name: total
+              containerPort: 80

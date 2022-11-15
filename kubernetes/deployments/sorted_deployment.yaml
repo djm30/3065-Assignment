@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sortmodules-deployment
+  labels:
+    tier: backend
+spec:
+  selector:
+    matchLabels:
+      app: v1
+      service: sortmodules
+  replicas: 2
+  template:
+    metadata:
+      name: sortmodules
+      labels:
+        app: v1
+        service: sortmodules
+    spec:
+      containers:
+        - name: sortmodules
+          image: assignment2registry3065.azurecr.io/sortmodules:latest
+          ports:
+            - name: sortmodules
+              containerPort: 80
+          env:
+          - name: PORT
+            value: "80"

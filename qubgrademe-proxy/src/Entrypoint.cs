@@ -18,24 +18,24 @@ public class Entrypoint : IEntrypoint
 
     public async Task Run()
     {
-        
+
         Console.WriteLine("Type /help for a list of commands");
-        Console.CancelKeyPress += delegate(object? sender, ConsoleCancelEventArgs args)
+        Console.CancelKeyPress += delegate (object? sender, ConsoleCancelEventArgs args)
         {
             Console.WriteLine("Shutting down");
             _config.InitiateShutdown();
             Environment.Exit(0);
         };
-        
+
         // Run TcpServer in another thread
-        var thread =  Task.Run(() =>
+        var thread = Task.Run(() =>
         {
             _listener.Listen();
         });
-        
-        
+
+
         // Poll the console for commands
         _commandLineParser.Parse();
-        
+
     }
 }

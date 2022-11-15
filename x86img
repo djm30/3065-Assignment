@@ -1,0 +1,10 @@
+docker buildx build \
+  --platform linux/amd64 \
+  --push \
+  -t assignment2registry3065.azurecr.io/classifygrade:latest \
+  -f Dockerfile.production \
+  .
+
+
+Add acr to cluster
+az aks update -n Assignment2-Cluster -g Assignment2 --attach-acr Assignment2Registry3065

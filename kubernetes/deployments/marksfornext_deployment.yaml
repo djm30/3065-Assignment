@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: marksfornext-deployment
+  labels:
+    tier: backend
+spec:
+  selector:
+    matchLabels:
+      app: v1
+      service: marksfornext
+  replicas: 2
+  template:
+    metadata:
+      name: marksfornext
+      labels:
+        app: v1
+        service: marksfornext
+    spec:
+      containers:
+        - name: marksfornext
+          image: assignment2registry3065.azurecr.io/marksfornext:latest
+          ports:
+            - name: marksfornext
+              containerPort: 80
+          env:
+          - name: PORT
+            value: "80"

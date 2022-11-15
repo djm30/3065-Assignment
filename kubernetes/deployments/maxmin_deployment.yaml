@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: maxmin-deployment
+  labels:
+    tier: backend
+spec:
+  selector:
+    matchLabels:
+      app: v1
+      service: maxmin
+  replicas: 2
+  template:
+    metadata:
+      name: maxmin
+      labels:
+        app: v1
+        service: maxmin
+    spec:
+      containers:
+        - name: maxmin
+          image: assignment2registry3065.azurecr.io/maxmin:latest
+          ports:
+            - name: maxmin
+              containerPort: 80
+          env:
+          - name: PORT
+            value: "80"

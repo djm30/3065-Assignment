@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: proxy-deployment
+  labels:
+    tier: backend
+spec:
+  selector:
+    matchLabels:
+      app: v1
+      service: proxy
+  replicas: 1
+  template:
+    metadata:
+      name: proxy
+      labels:
+        app: v1
+        service: proxy
+    spec:
+      containers:
+        - name: proxy
+          image: assignment2registry3065.azurecr.io/proxy:latest
+          ports:
+            - name: proxy
+              containerPort: 80
