@@ -1,7 +1,7 @@
 docker buildx build \
   --platform linux/amd64 \
   --push \
-  -t assignment2registry3065.azurecr.io/classifygrade:latest \
+  -t assignment2registry3065.azurecr.io/proxy:latest \
   -f Dockerfile.production \
   .
 

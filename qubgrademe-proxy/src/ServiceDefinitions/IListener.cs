@@ -2,5 +2,5 @@ namespace Proxy.ServiceDefinitions;
 
 public interface IListener
 {
-    public void Listen();
+    public Task Listen();
 }

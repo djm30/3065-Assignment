@@ -21,7 +21,7 @@ public class Listener : IListener
         server = new TcpListener(_config.GetIpAddress(), _config.GetPort());
     }
 
-    public async void Listen()
+    public async Task Listen()
     {
         server.Start();
         _logger.LogInformation("Listening on port {}", _config.GetPort());
@@ -41,6 +41,5 @@ public class Listener : IListener
         {
             server.Stop();
         }
-
     }
 }

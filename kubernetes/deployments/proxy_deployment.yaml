@@ -17,9 +17,16 @@ spec:
         app: v1
         service: proxy
     spec:
+      volumes:
+        -  name: proxy-config-volume
+           configMap:
+             name: proxy-configmap
       containers:
         - name: proxy
           image: assignment2registry3065.azurecr.io/proxy:latest
+          volumeMounts:
+          - mountPath: /app/Config/
+            name: proxy-config-volume
           ports:
             - name: proxy
               containerPort: 80

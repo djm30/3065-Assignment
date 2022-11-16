@@ -18,14 +18,14 @@ public class Config
         _logger = logger;
         path = Environment.GetEnvironmentVariable("ENV") switch
         {
-            "DEVELOPMENT" => "./config.development.json",
-            "PRODUCTION" => "./config.production.json",
-            _ => "./config.local.json"
+            "DEVELOPMENT" => "./Config/config.development.json",
+            "PRODUCTION" => "./Config/config.production.json",
+            _ => "./Config/config.local.json"
         };
     }
 
 
-    
+
     public async Task LoadSettings()
     {
         using var reader = new StreamReader(path);
@@ -72,7 +72,7 @@ public class Config
             s += $"{"Service Name",-21}:  {service.name}\nService Urls:\n";
             for (int i = 0; i < service.urls.Count; i++)
             {
-                s += $"{(i + 1)+".",-21}: {service.urls[i]}\n";
+                s += $"{(i + 1) + ".",-21}: {service.urls[i]}\n";
             }
 
             s += $"{"Query Params",-20} : {service.query_string}\n";

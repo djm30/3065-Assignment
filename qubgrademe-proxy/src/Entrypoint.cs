@@ -18,8 +18,6 @@ public class Entrypoint : IEntrypoint
 
     public async Task Run()
     {
-
-        Console.WriteLine("Type /help for a list of commands");
         Console.CancelKeyPress += delegate (object? sender, ConsoleCancelEventArgs args)
         {
             Console.WriteLine("Shutting down");
@@ -28,14 +26,17 @@ public class Entrypoint : IEntrypoint
         };
 
         // Run TcpServer in another thread
-        var thread = Task.Run(() =>
+        await _listener.Listen();
+
+
+            // Poll the console for commands
+        if (Environment.GetEnvironmentVariable("ENV") != "PRODUCTION")
         {
-            _listener.Listen();
-        });
-
-
-        // Poll the console for commands
-        _commandLineParser.Parse();
-
+            Console.WriteLine("Type /help for a list of commands");
+            var thread = Task.Run(() =>
+            {
+                _commandLineParser.Parse();
+            });
+        }
     }
 }

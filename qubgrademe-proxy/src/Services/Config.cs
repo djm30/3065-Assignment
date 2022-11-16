@@ -24,13 +24,13 @@ public class Config : IConfig
         switch (Environment.GetEnvironmentVariable("ENV"))
         {
             case "DEVELOPMENT":
-                path = "./config.development.json";
+                path = "./Config/config.development.json";
                 break;
             case "PRODUCTION":
-                path = "./config.production.json";
+                path = "./Config/config.production.json";
                 break;
             default:
-                path = "./config.local.json";
+                path = "./Config/config.local.json";
                 break;
         }
     }
@@ -68,6 +68,7 @@ public class Config : IConfig
         try
         {
             var config = JsonConvert.DeserializeObject<ConfigSchema>(raw);
+            Console.WriteLine(raw);
             ValidateConfig(config);
 
             routeMaps = new Dictionary<string, string>();

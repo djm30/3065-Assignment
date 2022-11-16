@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: classifygrade
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
     - targetPort: 80
       port: 80
