@@ -21,7 +21,7 @@ public class ConfigTests
 
         var configValue = new ConfigSchema()
         {
-            Port = 9000,
+            Port = 80,
             IpAddress = "localhost",
             Routes = new List<RouteSchema>()
             {
