@@ -22,8 +22,7 @@ public static class Health
 
         return new OkObjectResult(new HealthResponse()
         {
-            message = "Ok",
-            date = DateTime.Now,
+            message = "OK",
         });
 
     }

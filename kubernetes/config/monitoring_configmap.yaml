@@ -14,7 +14,7 @@ data:
           "name": "Sorted",
           "query_string" : "?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=10&mark_2=10&mark_3=20&mark_4=10&mark_5=30",
           "urls": [
-            "http://localhost:9001"
+            "http://sortmodules"
           ],
           "expected_result": "{\"error\":false,\"errorMessage\":\"\",\"modules\":[\"One\",\"Two\",\"Three\",\"Four\",\"Five\"],\"marks\":[10,10,20,10,30],\"sorted_modules\":[{\"module\":\"Five\",\"marks\":30},{\"module\":\"Three\",\"marks\":20},{\"module\":\"One\",\"marks\":10},{\"module\":\"Two\",\"marks\":10},{\"module\":\"Four\",\"marks\":10}]}"
         },
@@ -22,7 +22,7 @@ data:
           "name": "MaxMin",
           "query_string" : "?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=10&mark_2=10&mark_3=20&mark_4=10&mark_5=30",
           "urls": [
-            "http://localhost:9002"
+            "http://maxmin"
           ],
           "expected_result": "{\"error\":false,\"errorMessage\":\"\",\"modules\":[\"One\",\"Two\",\"Three\",\"Four\",\"Five\"],\"marks\":[10,10,20,10,30],\"max_module\":\"Five - 30\",\"min_module\":\"Four - 10\"}"
         },
@@ -30,7 +30,7 @@ data:
           "name": "Marks for next",
           "query_string" : "?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=10&mark_2=10&mark_3=20&mark_4=10&mark_5=30",
           "urls": [
-            "http://localhost:9003"
+            "http://marksfornext"
           ],
           "expected_result": "{\"error\":false,\"errorMessage\":\"\",\"modules\":[\"One\",\"Two\",\"Three\",\"Four\",\"Five\"],\"marks\":[10,10,20,10,30],\"marks_required\":\"Your current overall mark is: 16.0, and is 24.0 marks from a Third, you need a total of 120.0 more marks across all 5 possible modules to reach this.\"}"
         },
@@ -38,7 +38,7 @@ data:
           "name": "Classify",
           "query_string" : "?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=10&mark_2=10&mark_3=20&mark_4=10&mark_5=30",
           "urls": [
-            "http://localhost:9004"
+            "http://classifygrade"
           ],
           "expected_result": "{\"error\":false,\"errorMessage\":\"\",\"grade\":\"Fail\",\"marks\":[10,10,20,10,30],\"modules\":[\"One\",\"Two\",\"Three\",\"Four\",\"Five\"]}"
         },
@@ -46,25 +46,25 @@ data:
           "name": "Total",
           "query_string" : "?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=10&mark_2=10&mark_3=20&mark_4=10&mark_5=30",
           "urls": [
-            "http://localhost:9004"
+            "http://totalmarks"
           ],
-          "expected_result": "{\"error\":false,\"errorMessage\":\"\",\"grade\":\"Fail\",\"marks\":[10,10,20,10,30],\"modules\":[\"One\",\"Two\",\"Three\",\"Four\",\"Five\"]}"
+          "expected_result": "{\"error\":false,\"errorMessage\":\"\",\"marks\":[10,10,20,10,30],\"modules\":[\"One\",\"Two\",\"Three\",\"Four\",\"Five\"],\"total\":80}"
         },
         {
           "name": "Mean",
           "query_string" : "?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=10&mark_2=10&mark_3=20&mark_4=10&mark_5=30",
           "urls": [
-            "http://localhost:9004"
+            "https://meanmark-service-development.azurewebsites.net/api/mean"
           ],
-          "expected_result": "{\"error\":false,\"errorMessage\":\"\",\"grade\":\"Fail\",\"marks\":[10,10,20,10,30],\"modules\":[\"One\",\"Two\",\"Three\",\"Four\",\"Five\"]}"
+          "expected_result": "{\"error\":false,\"errorMessage\":\"\",\"modules\":[\"One\",\"Two\",\"Three\",\"Four\",\"Five\"],\"marks\":[10,10,20,10,30],\"mean\":16.0}"
         },
         {
           "name": "Storage Service",
-          "query_string" : "?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=10&mark_2=10&mark_3=20&mark_4=10&mark_5=30",
+          "query_string" : "",
           "urls": [
-            "http://localhost:9004/health"
+            "https://stateful-saving-service-development.azurewebsites.net/api/health"
           ],
-          "expected_result": "{\"error\":false,\"errorMessage\":\"\",\"grade\":\"Fail\",\"marks\":[10,10,20,10,30],\"modules\":[\"One\",\"Two\",\"Three\",\"Four\",\"Five\"]}"
+          "expected_result": "{\"Message\":\"OK\"}"
         },
         {
           "name": "Proxy 1",
