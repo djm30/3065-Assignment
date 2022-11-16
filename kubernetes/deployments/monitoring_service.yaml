@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: monitor-deployment
+  labels:
+    tier: backend
+spec:
+  selector:
+    matchLabels:
+      app: v1
+      service: monitoring
+  replicas: 1
+  template:
+    metadata:
+      name: monitoring
+      labels:
+        app: v1
+        service: monitoring
+    spec:
+      volumes:
+        -  name: monitoring-configmap-volume
+           configMap:
+             name: monitoring-configmap
+      containers:
+        - name: monitoring
+          image: assignment2registry3065.azurecr.io/monitoring:latest
+          volumeMounts:
+          - mountPath: /app/Config/
+            name: monitoring-configmap-volume
+          ports:
+            - name: proxy
+              containerPort: 80

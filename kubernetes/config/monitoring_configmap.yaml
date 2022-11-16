@@ -62,25 +62,25 @@ data:
           "name": "Storage Service",
           "query_string" : "?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=10&mark_2=10&mark_3=20&mark_4=10&mark_5=30",
           "urls": [
-            "http://localhost:9004"
+            "http://localhost:9004/health"
           ],
           "expected_result": "{\"error\":false,\"errorMessage\":\"\",\"grade\":\"Fail\",\"marks\":[10,10,20,10,30],\"modules\":[\"One\",\"Two\",\"Three\",\"Four\",\"Five\"]}"
         },
         {
           "name": "Proxy 1",
-          "query_string" : "?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=10&mark_2=10&mark_3=20&mark_4=10&mark_5=30",
+          "query_string" : "",
           "urls": [
-            "http://localhost:9004"
+            "http://20.103.231.53/health"
           ],
-          "expected_result": "{\"error\":false,\"errorMessage\":\"\",\"grade\":\"Fail\",\"marks\":[10,10,20,10,30],\"modules\":[\"One\",\"Two\",\"Three\",\"Four\",\"Five\"]}"
+          "expected_result": "{\"Message\":\"OK\"}"
         },
-         {
+        {
           "name": "Proxy 2",
-          "query_string" : "?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=10&mark_2=10&mark_3=20&mark_4=10&mark_5=30",
+          "query_string" : "",
           "urls": [
-            "http://localhost:9004"
+            "http://20.103.231.53/health"
           ],
-          "expected_result": "{\"error\":false,\"errorMessage\":\"\",\"grade\":\"Fail\",\"marks\":[10,10,20,10,30],\"modules\":[\"One\",\"Two\",\"Three\",\"Four\",\"Five\"]}"
-        },
+          "expected_result": "{\"Message\":\"OK\"}"
+        }
       ]
     }
