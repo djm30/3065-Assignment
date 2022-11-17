@@ -9,12 +9,22 @@ import getTotal from "./services/totalMarks";
 import getClassification from "./services/classifyGrade";
 import getMarksNeeded from "./services/marksForNext";
 import getMeanMark from "./services/meanMark";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { ServiceURLS } from "./services/service_urls";
+import sessionManagement from "./services/storageService";
 
 import "react-toastify/dist/ReactToastify.css";
 
-import { ResponseTypes } from "./types";
+import {
+    ClassifyGradeResponse,
+    Kinds,
+    MarksForNextResponse,
+    MeanMarkResponse,
+    MinMaxResponse,
+    ResponseTypes,
+    SortedResponse,
+    TotalMarksResponse,
+} from "./types";
 import { useFetch } from "./hooks";
 
 function App() {
@@ -30,21 +40,74 @@ function App() {
     const [mark4, setMark4] = useState<number>(NaN);
     const [mark5, setMark5] = useState<number>(NaN);
 
+    const marks = [mark1, mark2, mark3, mark4, mark5];
+    const setMarks = [setMark1, setMark2, setMark3, setMark4, setMark5];
+    const modules = [module1, module2, module3, module4, module5];
+    const setModules = [
+        setModule1,
+        setModule2,
+        setModule3,
+        setModule4,
+        setModule5,
+    ];
+
     const [result, setResult] = useState<ResponseTypes>();
+    const [session, setSession] = useState("");
 
     useEffect(() => {
-        // Initiating singleton
-        ServiceURLS.getInstance();
+        const initialise = async () => {
+            await ServiceURLS.getInstance().LoadData();
+            const id = await sessionManagement.getOrCreateSession();
+            setSession(id);
+        };
+        initialise().catch(console.error);
     }, []);
 
-    useEffect(() =>
-        // Updating session storage information every time the result value is changed
-        {}, [result]);
+    const loadValues = (loadedModules: string[], loadedMarks: string[]) => {
+        for (let i = 0; i < modules.length; i++) {
+            setModules[i](loadedModules[i]);
+            if (loadedModules[i]) setMarks[i](Number(loadedMarks[i]));
+        }
+    };
+
+    const loadSession = async () => {
+        const data = await sessionManagement.retrieveSession(session);
+        if (!data) return;
+        let result: ResponseTypes | undefined = undefined;
+        switch (data.kind) {
+            case Kinds.minMax:
+                result = data as MinMaxResponse;
+                break;
+            case Kinds.sort:
+                result = data as SortedResponse;
+                break;
+            case Kinds.total:
+                result = data as TotalMarksResponse;
+                break;
+            case Kinds.classify:
+                result = data as ClassifyGradeResponse;
+                break;
+            case Kinds.marksForNext:
+                result = data as MarksForNextResponse;
+                break;
+            case Kinds.mean:
+                result = data as MeanMarkResponse;
+                break;
+        }
+        setResult(result);
+        loadValues(result?.modules as string[], result?.marks as string[]);
+    };
+
+    useEffect(() => {
+        if (session != "") loadSession();
+    }, [session]);
+
+    useEffect(() => {
+        if (result != undefined)
+            sessionManagement.updateSession(session, result as ResponseTypes);
+    }, [result]);
 
     const fetch = useFetch(setResult);
-
-    const marks = [mark1, mark2, mark3, mark4, mark5];
-    const modules = [module1, module2, module3, module4, module5];
 
     const onMinMaxClick = async () => {
         await fetch(getMaxMin, modules, marks);
@@ -70,6 +133,36 @@ function App() {
         await fetch(getMeanMark, modules, marks);
     };
 
+    const onReloadClick = async () => {
+        await loadSession();
+    };
+
+    const onChangeClick = async () => {
+        let newSession = prompt("Please enter a new session ID");
+        if (newSession) {
+            if (
+                /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
+                    newSession,
+                )
+            ) {
+                localStorage.setItem("session", newSession);
+                setSession(newSession);
+                toast("Session Updated");
+            } else {
+                toast.error("Please enter a valid UUID ");
+            }
+        }
+    };
+
+    const onDeleteClick = async () => {
+        await sessionManagement.deleteSession(session);
+    };
+
+    const onCopyClick = async () => {
+        navigator.clipboard.writeText(session);
+        toast("Copied to clipboard!");
+    };
+
     const clearInputs = () => {
         setModule1("");
         setModule2("");
@@ -81,6 +174,7 @@ function App() {
         setMark3(NaN);
         setMark4(NaN);
         setMark5(NaN);
+        setResult(undefined);
     };
 
     return (
@@ -149,6 +243,36 @@ function App() {
                         >
                             Clear
                         </Button>
+                    </div>
+
+                    <div className="absolute left-2 bottom-2 text-white">
+                        <p> Session ID: {session}</p>
+                    </div>
+                    <div className="absolute right-2 bottom-2 text-white space-x-4">
+                        <button
+                            className="bg-blue-400 hover:bg-blue-700 rounded-xl px-4 py-1"
+                            onClick={onReloadClick}
+                        >
+                            Reload
+                        </button>
+                        <button
+                            className="bg-blue-400 hover:bg-blue-700 rounded-xl px-4 py-1"
+                            onClick={onChangeClick}
+                        >
+                            Change
+                        </button>
+                        <button
+                            className="bg-blue-400 hover:bg-blue-700 rounded-xl px-4 py-1"
+                            onClick={onDeleteClick}
+                        >
+                            Delete
+                        </button>
+                        <button
+                            className="bg-blue-400 hover:bg-blue-700 rounded-xl px-4 py-1"
+                            onClick={onCopyClick}
+                        >
+                            Copy
+                        </button>
                     </div>
 
                     {/* CLEAR */}

@@ -5,7 +5,8 @@
         "total": "/total",
         "next": "/next",
         "classify": "/classify",
-        "mean": "/mean"
+        "mean": "/mean",
+        "session": "/session"
     },
     "proxy_urls": [
         "http://proxy1.40265748.qpc.hal.davecutting.uk",

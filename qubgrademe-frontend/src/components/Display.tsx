@@ -53,7 +53,6 @@ const getMeanString = (result: MeanMarkResponse): string => {
 
 const Display = ({ result }: Props) => {
     let displayString = "";
-    console.log(result);
 
     switch (result?.kind) {
         case Kinds.minMax:
@@ -83,8 +82,6 @@ const Display = ({ result }: Props) => {
             displayString = "";
             break;
     }
-
-    console.log(displayString);
     return (
         <textarea
             className="w-4/5 p-4 text-lg text-center bg-neutral-800 rounded-md focus:outline-none border-[0.1px] border-transparent hover:border-neutral-400  text-white transition-all"

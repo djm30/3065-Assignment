@@ -28,7 +28,6 @@ const useFetch = (
         } catch (e) {
             if (axios.isAxiosError(e)) {
                 if (e.response?.status === 400) {
-                    console.log(e.response);
                     toast.update(id, {
                         type: "error",
                         render: e.response?.data.errorMessage,
@@ -45,7 +44,7 @@ const useFetch = (
                         autoClose: 4000,
                     });
                 } else {
-                    console.log(e);
+                    ServiceUrls.ChangeProxy();
                     toast.update(id, {
                         type: "error",
                         render: "An unknown error occured!",
@@ -54,7 +53,7 @@ const useFetch = (
                     });
                 }
             } else {
-                console.log(e);
+                ServiceUrls.ChangeProxy();
                 toast.update(id, {
                     type: "error",
                     render: "An unknown error occured!",

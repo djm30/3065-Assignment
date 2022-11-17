@@ -5,7 +5,7 @@ interface Services {
     next: string;
     classify: string;
     mean: string;
-    storage: string;
+    session: string;
 }
 
 export class ServiceURLS {
@@ -20,10 +20,10 @@ export class ServiceURLS {
         next: "",
         classify: "",
         mean: "",
-        storage: "",
+        session: "",
     };
 
-    private async LoadData() {
+    public async LoadData() {
         let data = await fetch("config.json", {
             headers: {
                 "Content-Type": "application/json",
@@ -34,15 +34,9 @@ export class ServiceURLS {
         let parsed = await data.json();
         this.proxy = parsed["proxy_urls"];
         this.routes = parsed["service_routes"];
-        console.log(this.routes);
-        console.log(this.proxy);
     }
 
-    private constructor() {
-        this.LoadData().then(() => {
-            "Config has been loaded";
-        });
-    }
+    private constructor() {}
 
     public static getInstance(): ServiceURLS {
         if (!this.instance) {
