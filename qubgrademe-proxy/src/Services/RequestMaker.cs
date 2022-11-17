@@ -25,14 +25,14 @@ public class RequestMaker : IRequestMaker
     {
         Byte[] bytes = new Byte[1024];
         string response;
-        
+
         using var tcp = new TcpClient(host.Host.Trim(), host.Port);
         await using var stream = tcp.GetStream();
         try
         {
             tcp.SendTimeout = 4000;
             tcp.ReceiveTimeout = 4000;
-                
+
             var req = request.ToArray();
             if (host.Port == 443)
             {
@@ -40,16 +40,16 @@ public class RequestMaker : IRequestMaker
                     tcp.GetStream(),
                     false
                 );
-                    
+
                 await sslStream.AuthenticateAsClientAsync(host.Host);
-                    
+
                 await sslStream.WriteAsync(req, 0, req.Length);
                 await sslStream.FlushAsync();
 
                 var i = sslStream.Read(bytes, 0, bytes.Length);
 
                 response = Encoding.ASCII.GetString(bytes, 0, i);
-                    
+
                 // Was used to remove null bytes from array, not sure if its needed
                 // response = string.Join("" ,response.Where(x => x != '\0').ToList());
             }
@@ -58,8 +58,9 @@ public class RequestMaker : IRequestMaker
                 await stream.WriteAsync(req, 0, req.Length);
                 await stream.FlushAsync();
                 // Reading request
-                var i =stream.Read(bytes, 0, bytes.Length);
+                var i = stream.Read(bytes, 0, bytes.Length);
                 response = Encoding.ASCII.GetString(bytes, 0, i);
+                Console.WriteLine(response);
             }
         }
         catch (Exception e)
