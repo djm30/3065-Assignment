@@ -1,0 +1,499 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: monitoring-configmap
+  namespace: 40265748-assignment2
+data:
+  config.production.json: |
+    {
+      "Emails": [
+        "dmorrison18@qub.ac.uk"
+      ],
+      "Services": [
+        {
+          "name": "Sorted",
+          "query_string" : "?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=10&mark_2=10&mark_3=20&mark_4=10&mark_5=30",
+          "urls": [
+            "http://sortmodules"
+          ],
+          "expected_result": "{\"error\":false,\"errorMessage\":\"\",\"modules\":[\"One\",\"Two\",\"Three\",\"Four\",\"Five\"],\"marks\":[10,10,20,10,30],\"sorted_modules\":[{\"module\":\"Five\",\"marks\":30},{\"module\":\"Three\",\"marks\":20},{\"module\":\"One\",\"marks\":10},{\"module\":\"Two\",\"marks\":10},{\"module\":\"Four\",\"marks\":10}]}"
+        },
+        {
+          "name": "MaxMin",
+          "query_string" : "?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=10&mark_2=10&mark_3=20&mark_4=10&mark_5=30",
+          "urls": [
+            "http://maxmin"
+          ],
+          "expected_result": "{\"error\":false,\"errorMessage\":\"\",\"modules\":[\"One\",\"Two\",\"Three\",\"Four\",\"Five\"],\"marks\":[10,10,20,10,30],\"max_module\":\"Five - 30\",\"min_module\":\"Four - 10\"}"
+        },
+        {
+          "name": "Marks for next",
+          "query_string" : "?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=10&mark_2=10&mark_3=20&mark_4=10&mark_5=30",
+          "urls": [
+            "http://marksfornext"
+          ],
+          "expected_result": "{\"error\":false,\"errorMessage\":\"\",\"modules\":[\"One\",\"Two\",\"Three\",\"Four\",\"Five\"],\"marks\":[10,10,20,10,30],\"marks_required\":\"Your current overall mark is: 16.0, and is 24.0 marks from a Third, you need a total of 120.0 more marks across all 5 possible modules to reach this.\"}"
+        },
+        {
+          "name": "Classify",
+          "query_string" : "?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=10&mark_2=10&mark_3=20&mark_4=10&mark_5=30",
+          "urls": [
+            "http://classifygrade"
+          ],
+          "expected_result": "{\"error\":false,\"errorMessage\":\"\",\"grade\":\"Fail\",\"marks\":[10,10,20,10,30],\"modules\":[\"One\",\"Two\",\"Three\",\"Four\",\"Five\"]}"
+        },
+        {
+          "name": "Total",
+          "query_string" : "?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=10&mark_2=10&mark_3=20&mark_4=10&mark_5=30",
+          "urls": [
+            "http://totalmarks"
+          ],
+          "expected_result": "{\"error\":false,\"errorMessage\":\"\",\"marks\":[10,10,20,10,30],\"modules\":[\"One\",\"Two\",\"Three\",\"Four\",\"Five\"],\"total\":80}"
+        },
+        {
+          "name": "Mean",
+          "query_string" : "?module_1=One&module_2=Two&module_3=Three&module_4=Four&module_5=Five&mark_1=10&mark_2=10&mark_3=20&mark_4=10&mark_5=30",
+          "urls": [
+            "https://meanmark-service-development.azurewebsites.net/api/mean"
+          ],
+          "expected_result": "{\"error\":false,\"errorMessage\":\"\",\"modules\":[\"One\",\"Two\",\"Three\",\"Four\",\"Five\"],\"marks\":[10,10,20,10,30],\"mean\":16.0}"
+        },
+        {
+          "name": "Storage Service",
+          "query_string" : "",
+          "urls": [
+            "https://stateful-saving-service-development.azurewebsites.net/api/health"
+          ],
+          "expected_result": "{\"Message\":\"OK\"}"
+        },
+        {
+          "name": "Proxy 1",
+          "query_string" : "",
+          "urls": [
+            "http://proxy1.40265748.qpc.hal.davecutting.uk/health"
+          ],
+          "expected_result": "{\"Message\":\"OK\"}"
+        },
+        {
+          "name": "Proxy 2",
+          "query_string" : "",
+          "urls": [
+            "http://proxy2.40265748.qpc.hal.davecutting.uk/health"
+          ],
+          "expected_result": "{\"Message\":\"OK\"}"
+        }
+      ]
+    }
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: proxy-configmap
+  namespace: 40265748-assignment2
+data:
+  config.production.json: |
+    {
+        "ipaddress": "0.0.0.0",
+        "port": 80,
+
+        "routes": [
+            {
+                "route": "/total",
+                "destination": "http://totalmarks"
+            },
+            {
+                "route": "/next",
+                "destination": "http://marksfornext"
+            },
+            {
+                "route": "/sort",
+                "destination": "http://sortmodules"
+            },
+            {
+                "route": "/max",
+                "destination": "http://maxmin"
+            },
+            {
+                "route": "/classify",
+                "destination": "http://classifygrade"
+            },
+            {
+                "route": "/mean",
+                "destination": "https://meanmark-service-development.azurewebsites.net/api/mean"
+            },
+            {
+                "route": "/session",
+                "destination": "https://stateful-saving-service-development.azurewebsites.net/api" 
+            },
+            {
+                "route": "/monitoring",
+                "destination": "http://monitoring" 
+            },
+            {
+                "route": "/dogs",
+                "destination": "https://dog.ceo/api/breeds/image/random"
+            },
+        ]
+    }
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: classifygrade-deployment
+  labels:
+    tier: backend
+spec:
+  selector:
+    matchLabels:
+      app: v1
+      service: classifygrade
+  replicas: 1
+  template:
+    metadata:
+      name: classifygrade
+      labels:
+        app: v1
+        service: classifygrade
+    spec:
+      containers:
+        - name: classifygrade
+          image: registry.hal.davecutting.uk/40265748/assignment2-registry/classifygrade:latest
+          ports:
+            - name: classifygrade
+              containerPort: 80
+          env:
+          - name: PORT
+            value: "80"
+
+--- 
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: marksfornext-deployment
+  labels:
+    tier: backend
+spec:
+  selector:
+    matchLabels:
+      app: v1
+      service: marksfornext
+  replicas: 1
+  template:
+    metadata:
+      name: marksfornext
+      labels:
+        app: v1
+        service: marksfornext
+    spec:
+      containers:
+        - name: marksfornext
+          image: registry.hal.davecutting.uk/40265748/assignment2-registry/marksfornext:latest
+          ports:
+            - name: marksfornext
+              containerPort: 80
+          env:
+          - name: PORT
+            value: "80"
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: maxmin-deployment
+  labels:
+    tier: backend
+spec:
+  selector:
+    matchLabels:
+      app: v1
+      service: maxmin
+  replicas: 1
+  template:
+    metadata:
+      name: maxmin
+      labels:
+        app: v1
+        service: maxmin
+    spec:
+      containers:
+        - name: maxmin
+          image: registry.hal.davecutting.uk/40265748/assignment2-registry/maxmin:latest
+          ports:
+            - name: maxmin
+              containerPort: 80
+          env:
+          - name: PORT
+            value: "80"
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: monitor-deployment
+  labels:
+    tier: backend
+spec:
+  selector:
+    matchLabels:
+      app: v1
+      service: monitoring
+  replicas: 1
+  template:
+    metadata:
+      name: monitoring
+      labels:
+        app: v1
+        service: monitoring
+    spec:
+      volumes:
+        -  name: monitoring-configmap-volume
+           configMap:
+             name: monitoring-configmap
+      containers:
+        - name: monitoring
+          image: registry.hal.davecutting.uk/40265748/assignment2-registry/monitoring:latest
+          volumeMounts:
+          - mountPath: /app/Config/
+            name: monitoring-configmap-volume
+          ports:
+            - name: proxy
+              containerPort: 80
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: proxy-deployment
+  labels:
+    tier: backend
+spec:
+  selector:
+    matchLabels:
+      app: v1
+      service: proxy
+  replicas: 1
+  template:
+    metadata:
+      name: proxy
+      labels:
+        app: v1
+        service: proxy
+    spec:
+      volumes:
+        -  name: proxy-config-volume
+           configMap:
+             name: proxy-configmap
+      containers:
+        - name: proxy
+          image: registry.hal.davecutting.uk/40265748/assignment2-registry/proxy:latest
+          volumeMounts:
+          - mountPath: /app/Config/
+            name: proxy-config-volume
+          ports:
+            - name: proxy
+              containerPort: 80
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: proxy-deployment2
+  labels:
+    tier: backend
+spec:
+  selector:
+    matchLabels:
+      app: v1
+      service: proxy
+  replicas: 1
+  template:
+    metadata:
+      name: proxy
+      labels:
+        app: v1
+        service: proxy
+    spec:
+      volumes:
+        -  name: proxy-config-volume
+           configMap:
+             name: proxy-configmap
+      containers:
+        - name: proxy
+          image: registry.hal.davecutting.uk/40265748/assignment2-registry/proxy:latest
+          volumeMounts:
+          - mountPath: /app/Config/
+            name: proxy-config-volume
+          ports:
+            - name: proxy
+              containerPort: 80
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sortmodules-deployment
+  labels:
+    tier: backend
+spec:
+  selector:
+    matchLabels:
+      app: v1
+      service: sortmodules
+  replicas: 1
+  template:
+    metadata:
+      name: sortmodules
+      labels:
+        app: v1
+        service: sortmodules
+    spec:
+      containers:
+        - name: sortmodules
+          image: registry.hal.davecutting.uk/40265748/assignment2-registry/sortmodules:latest
+          ports:
+            - name: sortmodules
+              containerPort: 80
+          env:
+          - name: PORT
+            value: "80"
+
+--- 
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: total-deployment
+  labels:
+    tier: backend
+spec:
+  selector:
+    matchLabels:
+      app: v1
+      service: totalmarks
+  replicas: 1
+  template:
+    metadata:
+      name: totalmarks
+      labels:
+        app: v1
+        service: totalmarks
+    spec:
+      containers:
+        - name: totalmarks
+          image: registry.hal.davecutting.uk/40265748/assignment2-registry/totalmarks:latest
+          ports:
+            - name: total
+              containerPort: 80
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: classifygrade
+spec:
+  type: ClusterIP
+  ports:
+    - targetPort: 80
+      port: 80
+  selector:
+    app: v1
+    service: classifygrade
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: marksfornext
+spec:
+  type: ClusterIP
+  ports:
+    - targetPort: 80
+      port: 80
+  selector:
+    app: v1
+    service: marksfornext
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: maxmin
+spec:
+  type: ClusterIP
+  ports:
+    - targetPort: 80
+      port: 80
+  selector:
+    app: v1
+    service: maxmin
+
+# ---
+
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: monitoring
+# spec:
+#    type: LoadBalancer
+#    ports:
+#      - port: 80
+#    selector:
+#      service: monitoring
+#      app: v1
+
+# ---
+
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: proxy-server
+# spec:
+#    type: LoadBalancer
+#    ports:
+#      - port: 80
+#    selector:
+#      service: proxy
+#      app: v1
+
+--- 
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: sortmodules
+spec:
+  type: ClusterIP
+  ports:
+    - targetPort: 80
+      port: 80
+  selector:
+    app: v1
+    service: sortmodules
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: totalmarks
+spec:
+  type: ClusterIP
+  ports:
+    - targetPort: 80
+      port: 80
+  selector:
+    app: v1
+    service: totalmarks

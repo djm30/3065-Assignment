@@ -30,12 +30,16 @@ function App() {
     const [mark4, setMark4] = useState<number>(NaN);
     const [mark5, setMark5] = useState<number>(NaN);
 
+    const [result, setResult] = useState<ResponseTypes>();
+
     useEffect(() => {
         // Initiating singleton
         ServiceURLS.getInstance();
     }, []);
 
-    const [result, setResult] = useState<ResponseTypes>();
+    useEffect(() =>
+        // Updating session storage information every time the result value is changed
+        {}, [result]);
 
     const fetch = useFetch(setResult);
 

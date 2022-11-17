@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: maxmin
-          image: assignment2registry3065.azurecr.io/maxmin:latest
+          image: registry.hal.davecutting.uk/40265748/assignment2-registry/maxmin:latest
           ports:
             - name: maxmin
               containerPort: 80

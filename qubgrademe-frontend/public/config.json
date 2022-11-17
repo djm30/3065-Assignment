@@ -1,5 +1,6 @@
 {
-    "service_urls": {
+    "proxy_urls": ["http://proxy1.40265748.qpc.hal.davecutting.uk/health"],
+    "service_routes": {
         "maxmin": "http://localhost:9002",
         "sort": "http://localhost:9001",
         "total": "http://localhost:9003/marks",

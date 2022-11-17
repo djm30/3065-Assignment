@@ -48,35 +48,35 @@ var logService = app.Services.GetService<LogResults>();
 var config = app.Services.GetService<Config>();
 await config.LoadSettings();
 
-Task.Run(async () =>
-{
-    Console.WriteLine("Type /help for a list of available commands");
-    while (true)
-    {
-        var command = Console.ReadLine();
-        switch (command)
-        {
-            case "/reload":
-                await config.LoadSettings();
-                Console.WriteLine("Settings Reloaded!");
-                break;
-            case "/list":
-                Console.WriteLine(config.PrintConfig());
-                break;
-            case "/help":
-                Console.WriteLine("{0,-8} -   Reloads the config file into memory after it has been changed", "/reload");
-                Console.WriteLine("{0,-8} -   Lists all information of the currently stored services", "/list");
-                Console.WriteLine("{0,-8} -   Exits the program", "/exit");
-                Console.WriteLine("{0,-8} -   Lists all the available commands\n", "/help");
-                break;
-            case "/exit":
-                Environment.Exit(0);
-                break;
-            default:
-                Console.WriteLine("Please enter a valid command");
-                break;
-        }
-    }
-});
+// Task.Run(async () =>
+// {
+//     Console.WriteLine("Type /help for a list of available commands");
+//     while (true)
+//     {
+//         var command = Console.ReadLine();
+//         switch (command)
+//         {
+//             case "/reload":
+//                 await config.LoadSettings();
+//                 Console.WriteLine("Settings Reloaded!");
+//                 break;
+//             case "/list":
+//                 Console.WriteLine(config.PrintConfig());
+//                 break;
+//             case "/help":
+//                 Console.WriteLine("{0,-8} -   Reloads the config file into memory after it has been changed", "/reload");
+//                 Console.WriteLine("{0,-8} -   Lists all information of the currently stored services", "/list");
+//                 Console.WriteLine("{0,-8} -   Exits the program", "/exit");
+//                 Console.WriteLine("{0,-8} -   Lists all the available commands\n", "/help");
+//                 break;
+//             case "/exit":
+//                 Environment.Exit(0);
+//                 break;
+//             default:
+//                 Console.WriteLine("Please enter a valid command");
+//                 break;
+//         }
+//     }
+// });
 
 app.Run();

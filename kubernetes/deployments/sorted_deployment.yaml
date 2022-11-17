@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: sortmodules
-          image: assignment2registry3065.azurecr.io/sortmodules:latest
+          image: registry.hal.davecutting.uk/40265748/assignment2-registry/sortmodules:latest
           ports:
             - name: sortmodules
               containerPort: 80

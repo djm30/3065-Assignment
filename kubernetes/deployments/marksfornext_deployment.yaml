@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: marksfornext
-          image: assignment2registry3065.azurecr.io/marksfornext:latest
+          image: registry.hal.davecutting.uk/40265748/assignment2-registry/marksfornext:latest
           ports:
             - name: marksfornext
               containerPort: 80

@@ -23,7 +23,7 @@ spec:
              name: monitoring-configmap
       containers:
         - name: monitoring
-          image: assignment2registry3065.azurecr.io/monitoring:latest
+          image: registry.hal.davecutting.uk/40265748/assignment2-registry/monitoring:latest
           volumeMounts:
           - mountPath: /app/Config/
             name: monitoring-configmap-volume

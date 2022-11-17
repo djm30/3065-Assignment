@@ -1,9 +1,15 @@
 docker buildx build \
   --platform linux/amd64 \
   --push \
-  -t assignment2registry3065.azurecr.io/proxy:latest \
+  -t registry.hal.davecutting.uk/40265748/assignment2-registry/proxy:latest \
   -f Dockerfile.production \
   .
+
+docker buildx build \
+--platform linux/amd64 \
+--push \
+-t registry.hal.davecutting.uk/40265748/assignment2-registry/marksfornext:latest \
+.
 
 
 Add acr to cluster
