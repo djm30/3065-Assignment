@@ -6,12 +6,9 @@ export default async (
     modules: string[],
     marks: number[],
 ): Promise<ClassifyGradeResponse> => {
-    const baseUrl = ServiceURLS.getInstance().urls.classify;
-    const response = await fetch<ClassifyGradeResponse>(
-        baseUrl,
-        modules,
-        marks,
-    );
+    const services = ServiceURLS.getInstance();
+    const url = services.GetProxy() + services.routes.classify;
+    const response = await fetch<ClassifyGradeResponse>(url, modules, marks);
     response.kind = Kinds.classify;
     return response;
 };

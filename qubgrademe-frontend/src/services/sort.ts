@@ -7,8 +7,9 @@ export default async (
     modules: string[],
     marks: number[],
 ): Promise<SortedResponse> => {
-    const baseUrl = ServiceURLS.getInstance().urls.sort;
-    const response = await fetch<SortedResponse>(baseUrl, modules, marks);
+    const services = ServiceURLS.getInstance();
+    const url = services.GetProxy() + services.routes.sort;
+    const response = await fetch<SortedResponse>(url, modules, marks);
     response.kind = Kinds.sort;
     return response;
 };

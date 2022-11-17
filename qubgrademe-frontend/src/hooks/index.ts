@@ -1,7 +1,11 @@
 import { toast } from "react-toastify";
 import { Kinds, ResponseTypes } from "../types";
+import { ServiceURLS } from "../services/service_urls";
 import axios from "axios";
 
+const ServiceUrls = ServiceURLS.getInstance();
+
+// Single hook used for all data fetching
 const useFetch = (
     setResult: React.Dispatch<React.SetStateAction<ResponseTypes | undefined>>,
 ) => {
@@ -24,17 +28,27 @@ const useFetch = (
         } catch (e) {
             if (axios.isAxiosError(e)) {
                 if (e.response?.status === 400) {
+                    console.log(e.response);
                     toast.update(id, {
                         type: "error",
                         render: e.response?.data.errorMessage,
                         isLoading: false,
                         autoClose: 4000,
                     });
-                }
-                if (e.message === "Network Error") {
+                } else if (e.response?.status >= 405) {
+                    // Changing what proxy the server is using
+                    ServiceUrls.ChangeProxy();
                     toast.update(id, {
                         type: "error",
-                        render: "Can't connect to our servers!",
+                        render: "Switching server, please try again!",
+                        isLoading: false,
+                        autoClose: 4000,
+                    });
+                } else {
+                    console.log(e);
+                    toast.update(id, {
+                        type: "error",
+                        render: "An unknown error occured!",
                         isLoading: false,
                         autoClose: 4000,
                     });

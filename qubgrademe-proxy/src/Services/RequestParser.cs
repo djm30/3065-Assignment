@@ -75,10 +75,9 @@ public class RequestParser : IRequestParser
 
                 // Getting headers from response, skipping first row as there is a new one and filtering out some headers that cause issues
                 var oldHeaderRows = request.Split("\n")
-                    .Where(x => !x.Contains("Host") && !x.Contains("Connection") && !x.Contains("Accept-Encoding"))
+                    .Where(x => !x.Contains("Host") && !x.Contains("Connection") && !x.Contains("Accept-Encoding") && !x.Contains("Access-Control-Allow-Origin") && !x.Contains("Vary: Origin"))
                     .Skip(1);
                 // Appending new host header as well
-                
                 var requestHeaders = httpHeader + string.Join("", oldHeaderRows.Select(x => x + "\n"));
                 requestHeaders = requestHeaders.Substring(0, requestHeaders.Length - 1);
                 

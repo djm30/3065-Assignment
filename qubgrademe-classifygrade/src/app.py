@@ -1,39 +1,37 @@
-from flask import Flask, request
+from fastapi import FastAPI, Response, status
+from fastapi.middleware.cors import CORSMiddleware
 from classify import classify
 from overall_mark import overall_mark, marks_to_int
 from validation import validate
 from datetime import datetime
-from flask_cors import CORS, cross_origin
 import time
 import os
 
-app = Flask(__name__)
-cors = CORS(app)
-app.config['CORS_HEADERS'] = 'Content-Type'
+app = FastAPI()
+
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+
+
 
 start_time = time.time()
 port = int(os.environ.get('PORT')) if os.environ.get('PORT') is not None else 9004
 
-@app.route("/", methods=["GET"], strict_slashes=False)
-@cross_origin()
-def sum():
-    print("HERE FUCK FUCK FUCK I HATE THIS")
-    module1 = request.args.get("module_1")
-    module2 = request.args.get("module_2")
-    module3 = request.args.get("module_3")
-    module4 = request.args.get("module_4")
-    module5 = request.args.get("module_5")
-    mark1 = request.args.get("mark_1")
-    mark2 = request.args.get("mark_2")
-    mark3 = request.args.get("mark_3")
-    mark4 = request.args.get("mark_4")
-    mark5 = request.args.get("mark_5")
+@app.get("/", status_code=200)
+def sum(response: Response, module_1: str = "", module_2: str="" , module_3: str="" , module_4: str="" , module_5: str="" , mark_1: str="" , mark_2: str="" , mark_3: str="" , mark_4: str="" , mark_5: str=""):
+    modules = [module_1, module_2, module_3, module_4, module_5]
+    marks = [mark_1, mark_2, mark_3, mark_4, mark_5]
 
-
-    modules = [module1, module2, module3, module4, module5]
-    marks = [mark1, mark2, mark3, mark4, mark5]
-
-    response = {
+    res = {
         "error": False,
         "errorMessage" : "",
         "modules": modules,
@@ -47,19 +45,20 @@ def sum():
         #  Getting the grade
         overall = overall_mark(marks)
         classification = classify(overall)
-        response["grade"] = classification.value
+        res["grade"] = classification.value
     else:
-        response["errorMessage"] = message
-        response["error"] = True
+        res["errorMessage"] = message
+        res["error"] = True
 
     # Removing null values from marks and modules before sending it back
-    response["marks"] = list(marks_to_int(marks))
-    response["modules"] = list(map(lambda x: "" if x is None else x, modules))
+    res["marks"] = list(marks_to_int(marks))
+    res["modules"] = list(map(lambda x: "" if x is None else x, modules))
 
-    return response, 200 if success else 400
 
-@app.route("/health", methods=["GET"], strict_slashes=False)
-@cross_origin()
+    response.status_code = 200 if success else 400
+    return res
+
+@app.get("/health", status_code=200)
 def health():
     data = {
         "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"),
@@ -67,7 +66,7 @@ def health():
         "uptime": time.time() - start_time
 
     }
-    return data, 200
+    return data
 
-if __name__ == "__main__":
-    app.run(port=port, host="0.0.0.0")
+# if __name__ == "__main__":
+#     app.run(port=port, host="0.0.0.0")

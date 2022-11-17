@@ -127,14 +127,6 @@ data:
                 "route": "/session",
                 "destination": "https://stateful-saving-service-development.azurewebsites.net/api" 
             },
-            {
-                "route": "/monitoring",
-                "destination": "http://monitoring" 
-            },
-            {
-                "route": "/dogs",
-                "destination": "https://dog.ceo/api/breeds/image/random"
-            },
         ]
     }
 

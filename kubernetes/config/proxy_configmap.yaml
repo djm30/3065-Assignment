@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: proxy-configmap
-  namespace: default
+  namespace: 40265748-assignment2
 data:
   config.production.json: |
     {
@@ -37,14 +37,6 @@ data:
             {
                 "route": "/session",
                 "destination": "https://stateful-saving-service-development.azurewebsites.net/api" 
-            },
-            {
-                "route": "/monitoring",
-                "destination": "http://monitoring" 
-            },
-            {
-                "route": "/dogs",
-                "destination": "https://dog.ceo/api/breeds/image/random"
             },
         ]
     }

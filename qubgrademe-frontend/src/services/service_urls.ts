@@ -5,18 +5,22 @@ interface Services {
     next: string;
     classify: string;
     mean: string;
+    storage: string;
 }
 
 export class ServiceURLS {
     private static instance: ServiceURLS;
 
-    public urls: Services = {
+    private currProxy = 0;
+    private proxy: String[] = [];
+    public routes: Services = {
         maxmin: "",
         sort: "",
         total: "",
         next: "",
         classify: "",
         mean: "",
+        storage: "",
     };
 
     private async LoadData() {
@@ -28,20 +32,31 @@ export class ServiceURLS {
         });
 
         let parsed = await data.json();
-        console.log("here");
-        this.urls = parsed["service_urls"];
-        console.log(this.urls);
+        this.proxy = parsed["proxy_urls"];
+        this.routes = parsed["service_routes"];
+        console.log(this.routes);
+        console.log(this.proxy);
     }
 
     private constructor() {
-        this.LoadData();
+        this.LoadData().then(() => {
+            "Config has been loaded";
+        });
     }
 
     public static getInstance(): ServiceURLS {
         if (!this.instance) {
             this.instance = new ServiceURLS();
         }
-        console.log(this.instance.urls);
         return this.instance;
+    }
+
+    public GetProxy(): String {
+        return this.proxy[this.currProxy];
+    }
+
+    public ChangeProxy(): void {
+        if (this.currProxy + 1 >= this.proxy.length) this.currProxy = 0;
+        else this.currProxy++;
     }
 }

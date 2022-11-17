@@ -6,8 +6,9 @@ export default async (
     modules: string[],
     marks: number[],
 ): Promise<MeanMarkResponse> => {
-    const baseUrl = ServiceURLS.getInstance().urls.mean;
-    const response = await fetch<MeanMarkResponse>(baseUrl, modules, marks);
+    const services = ServiceURLS.getInstance();
+    const url = services.GetProxy() + services.routes.mean;
+    const response = await fetch<MeanMarkResponse>(url, modules, marks);
     response.kind = Kinds.mean;
     return response;
 };

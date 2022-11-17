@@ -1,11 +1,14 @@
 {
-    "proxy_urls": ["http://proxy1.40265748.qpc.hal.davecutting.uk/health"],
     "service_routes": {
-        "maxmin": "http://localhost:9002",
-        "sort": "http://localhost:9001",
-        "total": "http://localhost:9003/marks",
-        "next": "http://localhost:9003/next",
-        "classify": "http://localhost:9004",
-        "mean": "https://meanmark-service-development.azurewebsites.net/api/mean"
-    }
+        "maxmin": "/max",
+        "sort": "/sort",
+        "total": "/total",
+        "next": "/next",
+        "classify": "/classify",
+        "mean": "/mean"
+    },
+    "proxy_urls": [
+        "http://proxy1.40265748.qpc.hal.davecutting.uk",
+        "http://proxy2.40265748.qpc.hal.davecutting.uk"
+    ]
 }

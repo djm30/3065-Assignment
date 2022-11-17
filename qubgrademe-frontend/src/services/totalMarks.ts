@@ -6,8 +6,9 @@ export default async (
     modules: string[],
     marks: number[],
 ): Promise<TotalMarksResponse> => {
-    const baseUrl = ServiceURLS.getInstance().urls.total;
-    const response = await fetch<TotalMarksResponse>(baseUrl, modules, marks);
+    const services = ServiceURLS.getInstance();
+    const url = services.GetProxy() + services.routes.total;
+    const response = await fetch<TotalMarksResponse>(url, modules, marks);
     response.kind = Kinds.total;
     return response;
 };

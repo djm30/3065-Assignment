@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: monitoring-configmap
-  namespace: default
+  namespace: 40265748-assignment2
 data:
   config.production.json: |
     {

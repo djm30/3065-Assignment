@@ -1,12 +1,10 @@
 import axios from "axios";
 
 const client = axios.create({
-    // baseURL: "http://localhost:",
     timeout: 5000,
-    // validateStatus: (status) => {
-    //     if ((status >= 200 && status <= 300) || status === 400) return true;
-    //     return false;
-    // },
+    headers: {
+        "Content-Type": "application/json",
+    },
 });
 
 const getQueryString = (modules: string[], marks: number[]): string => {

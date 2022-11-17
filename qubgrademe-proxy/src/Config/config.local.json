@@ -21,7 +21,7 @@
         },
         {
             "route": "/classify",
-            "destination": "http://localhost:9004"
+            "destination": "http://classify.40265748.qpc.hal.davecutting.uk"
         },
         {
             "route": "/mean",

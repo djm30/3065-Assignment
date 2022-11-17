@@ -4,9 +4,10 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/gin-gonic/gin"
-
 	"fmt"
+
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
 )
 
 var startTime time.Time
@@ -18,6 +19,7 @@ func uptime() time.Duration {
 func setupRouter() *gin.Engine {
 	r := gin.Default()
 
+	r.Use(cors.Default())
 	r.GET("/health", health)
 	r.GET("/", total)
 	return r

@@ -6,8 +6,9 @@ export default async (
     modules: string[],
     marks: number[],
 ): Promise<MinMaxResponse> => {
-    const baseUrl = ServiceURLS.getInstance().urls.maxmin;
-    const response = await fetch<MinMaxResponse>(baseUrl, modules, marks);
+    const services = ServiceURLS.getInstance();
+    const url = services.GetProxy() + services.routes.maxmin;
+    const response = await fetch<MinMaxResponse>(url, modules, marks);
     response.kind = Kinds.minMax;
     return response;
 };

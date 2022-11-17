@@ -60,7 +60,6 @@ public class RequestMaker : IRequestMaker
                 // Reading request
                 var i = stream.Read(bytes, 0, bytes.Length);
                 response = Encoding.ASCII.GetString(bytes, 0, i);
-                Console.WriteLine(response);
             }
         }
         catch (Exception e)
