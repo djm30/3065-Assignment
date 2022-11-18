@@ -7,11 +7,11 @@ on:
   push:
     branches: [ "master" ]
     paths:
-      - "qubgrademe-classifygrade/**"
+      - "qubgrademe-classifygrade-python/**"
   pull_request:
     branches: [ "master" ]
     paths:
-      - "qubgrademe-classifygrade/**"
+      - "qubgrademe-classifygrade-python/**"
   workflow_dispatch:
 
 permissions:
@@ -24,7 +24,7 @@ jobs:
     
     defaults:
       run:
-        working-directory: qubgrademe-classifygrade/
+        working-directory: qubgrademe-classifygrade-python/
 
     steps:
     - uses: actions/checkout@v3

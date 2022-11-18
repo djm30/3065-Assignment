@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,7 +28,7 @@ import java.util.logging.Filter;
 public class QubgrademeTotalmarksApplication {
 
     @GetMapping("/")
-    public ClassifyGradeModel getTotal(
+    public ResponseEntity<ClassifyGradeModel> getTotal(
             @RequestParam Optional<String> module_1,
             @RequestParam Optional<String> module_2,
             @RequestParam Optional<String> module_3,
@@ -67,7 +68,7 @@ public class QubgrademeTotalmarksApplication {
             response.setGrade("");
         }
 
-        return response;
+        return ResponseEntity.status(response.isError() ? 400 : 200).body(response);
     }
 
     public static void main(String[] args) {
