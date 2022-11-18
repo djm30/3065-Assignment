@@ -12,6 +12,7 @@ import getMeanMark from "./services/meanMark";
 import { toast, ToastContainer } from "react-toastify";
 import { ServiceURLS } from "./services/service_urls";
 import sessionManagement from "./services/storageService";
+import GitHub from "./components/GitHub";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -245,10 +246,11 @@ function App() {
                         </Button>
                     </div>
 
-                    <div className="absolute left-2 bottom-2 text-white">
-                        <p> Session ID: {session}</p>
-                    </div>
-                    <div className="absolute right-2 bottom-2 text-white space-x-4">
+                    {/* CLEAR */}
+                </Container>
+                <div className="flex justify-between flex-row text-white mt-2">
+                    <p> Session ID: {session}</p>
+                    <div className="space-x-4 flex flex-row">
                         <button
                             className="bg-blue-400 hover:bg-blue-700 rounded-xl px-4 py-1"
                             onClick={onReloadClick}
@@ -274,12 +276,13 @@ function App() {
                             Copy
                         </button>
                     </div>
-
-                    {/* CLEAR */}
-                </Container>
+                </div>
                 {/* FOOTER */}
-                <footer className="h-24 mt-20 bg-accentBlue"></footer>
             </div>
+            <footer className="h-24 mt-20 text-white bg-violet-600 flex justify-center items-center space-x-10">
+                <p>Dylan Morrison - 40265748</p>
+                <GitHub width="50" height="50" fill="white" />
+            </footer>
             <ToastContainer theme="dark" />
         </>
     );
