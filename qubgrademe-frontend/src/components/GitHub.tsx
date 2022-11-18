@@ -8,7 +8,7 @@ interface Props {
 
 const GitHub = ({ fill, width, height }: Props) => {
     const redirectToGithub = () => {
-        const link = "https://github.com/djm30/StreakTracking";
+        const link = "https://github.com/djm30/3065-Assignment";
         window.open(link, "_blank");
     };
 
