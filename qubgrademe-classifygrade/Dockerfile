@@ -1,11 +1,6 @@
-FROM python:3.10
-WORKDIR /app
-
-COPY requirements.txt requirements.txt
-RUN pip3 install -r requirements.txt
-ENV PORT=80
-COPY ./src /app/
-
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "80"]
-
+FROM openjdk
 EXPOSE 80
+
+COPY ./target/classifygrade-0.0.1-SNAPSHOT.jar ./classifygrade.jar
+
+CMD [ "java", "-jar", "./classifygrade.jar", "--server.port=80" ]

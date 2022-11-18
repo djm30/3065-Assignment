@@ -333,6 +333,37 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: frontend-deployment
+  labels:
+    tier: frontend
+spec:
+  selector:
+    matchLabels:
+      app: v1
+      service: frontend
+  replicas: 1
+  template:
+    metadata:
+      name: frontend
+      labels:
+        app: v1
+        service: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: registry.hal.davecutting.uk/40265748/assignment2-registry/frontend:latest
+          ports:
+            - name: frontend
+              containerPort: 80
+          env:
+          - name: PORT
+            value: "80"
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
   name: sortmodules-deployment
   labels:
     tier: backend

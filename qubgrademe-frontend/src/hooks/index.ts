@@ -26,6 +26,7 @@ const useFetch = (
             console.log("hello");
             setResult(result);
         } catch (e) {
+            console.log(e);
             if (axios.isAxiosError(e)) {
                 if (e.response?.status === 400) {
                     toast.update(id, {
@@ -34,20 +35,12 @@ const useFetch = (
                         isLoading: false,
                         autoClose: 4000,
                     });
-                } else if (e.response?.status >= 405) {
+                } else {
                     // Changing what proxy the server is using
                     ServiceUrls.ChangeProxy();
                     toast.update(id, {
                         type: "error",
                         render: "Switching server, please try again!",
-                        isLoading: false,
-                        autoClose: 4000,
-                    });
-                } else {
-                    ServiceUrls.ChangeProxy();
-                    toast.update(id, {
-                        type: "error",
-                        render: "An unknown error occured!",
                         isLoading: false,
                         autoClose: 4000,
                     });

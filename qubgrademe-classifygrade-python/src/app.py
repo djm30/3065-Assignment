@@ -27,7 +27,7 @@ start_time = time.time()
 port = int(os.environ.get('PORT')) if os.environ.get('PORT') is not None else 9004
 
 @app.get("/", status_code=200)
-def sum(response: Response, module_1: str = "", module_2: str="" , module_3: str="" , module_4: str="" , module_5: str="" , mark_1: str="" , mark_2: str="" , mark_3: str="" , mark_4: str="" , mark_5: str=""):
+async def sum(response: Response, module_1: str = "", module_2: str="" , module_3: str="" , module_4: str="" , module_5: str="" , mark_1: str="" , mark_2: str="" , mark_3: str="" , mark_4: str="" , mark_5: str=""):
     modules = [module_1, module_2, module_3, module_4, module_5]
     marks = [mark_1, mark_2, mark_3, mark_4, mark_5]
 
@@ -59,7 +59,7 @@ def sum(response: Response, module_1: str = "", module_2: str="" , module_3: str
     return res
 
 @app.get("/health", status_code=200)
-def health():
+async def health():
     data = {
         "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"),
         "message": "Ok",

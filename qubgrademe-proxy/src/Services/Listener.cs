@@ -29,8 +29,13 @@ public class Listener : IListener
         {
             while(!_config.IsShutdown())
             {
-                var client = await server.AcceptTcpClientAsync().ConfigureAwait(false);
-                await _handler.Handle(client);
+                var client = await server.AcceptTcpClientAsync();
+                
+                Task.Run(() =>
+                {
+                    _handler.Handle(client);
+                });
+               
             }
         }
         catch (SocketException e)

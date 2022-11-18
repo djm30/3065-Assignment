@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Security;
 using System.Text;
 using System;
+using System.Linq.Expressions;
 using Microsoft.Extensions.Logging;
 
 namespace Proxy.Services;
@@ -61,8 +62,17 @@ public class RequestMaker : IRequestMaker
                 var i = stream.Read(bytes, 0, bytes.Length);
                 response = Encoding.ASCII.GetString(bytes, 0, i);
             }
+            Console.WriteLine("RESPONSE FROM SERVER:");
+            Console.WriteLine(response);
+            
+            // Add cors header to response
+            // var headers = response.Split("\r\n\r\n");
+            // headers[0] += "\r\nAccess-Control-Allow-Origin: *\r\n";
+            // response = headers[0] +"\r\n" + headers[1];
+            
+            Console.WriteLine("New Response");
         }
-        catch (Exception e)
+        catch(Exception e)
         {
             _logger.LogError(e, "Error occured while forwarding request to destination");
             response = _responseBuilder.BuildPage(500, "INTERNAL SERVER ERROR", "Internal Server Error",
