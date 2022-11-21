@@ -23,7 +23,6 @@ const useFetch = (
                 isLoading: false,
                 autoClose: 1500,
             });
-            console.log("hello");
             setResult(result);
         } catch (e) {
             console.log(e);

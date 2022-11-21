@@ -3,16 +3,11 @@ package main;
 import models.ClassifyGradeModel;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.filter.ShallowEtagHeaderFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import services.GetGrade;
 import validation.Validator;
 
@@ -20,15 +15,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Filter;
 
 @SpringBootApplication
 @RestController
 @CrossOrigin(origins = {"*"})
-public class QubgrademeTotalmarksApplication {
+public class QubGradeMeClassifyApplication {
 
     @GetMapping("/")
-    public ResponseEntity<ClassifyGradeModel> getTotal(
+    public ResponseEntity<ClassifyGradeModel> getClassification(
             @RequestParam Optional<String> module_1,
             @RequestParam Optional<String> module_2,
             @RequestParam Optional<String> module_3,
@@ -72,6 +66,6 @@ public class QubgrademeTotalmarksApplication {
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(QubgrademeTotalmarksApplication.class, args);
+        SpringApplication.run(QubGradeMeClassifyApplication.class, args);
     }
 }

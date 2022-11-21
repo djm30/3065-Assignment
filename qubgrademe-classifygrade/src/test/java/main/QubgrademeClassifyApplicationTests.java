@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-class QubgrademeTotalmarksApplicationTests {
+class QubgrademeClassifyApplicationTests {
 
     @LocalServerPort
     private int port;

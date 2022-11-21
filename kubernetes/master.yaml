@@ -40,7 +40,7 @@ data:
           "urls": [
             "http://classifygrade"
           ],
-          "expected_result": "{\"error\":false,\"errorMessage\":\"\",\"grade\":\"Fail\",\"marks\":[10,10,20,10,30],\"modules\":[\"One\",\"Two\",\"Three\",\"Four\",\"Five\"]}"
+          "expected_result": "{\"error\":false,\"errorMessage\":\"\",\"marks\":[10,10,20,10,30],\"modules\":[\"One\",\"Two\",\"Three\",\"Four\",\"Five\"],\"grade\":\"Fail\"}"
         },
         {
           "name": "Total",
@@ -64,7 +64,7 @@ data:
           "urls": [
             "https://stateful-saving-service-development.azurewebsites.net/api/health"
           ],
-          "expected_result": "{\"Message\":\"OK\"}"
+          "expected_result": "{\"message\":\"OK\"}"
         },
         {
           "name": "Proxy 1",
