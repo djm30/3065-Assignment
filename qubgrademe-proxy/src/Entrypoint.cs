@@ -25,18 +25,21 @@ public class Entrypoint : IEntrypoint
             Environment.Exit(0);
         };
 
+        Console.WriteLine("Type /help for a list of commands");
+        var thread = Task.Run(() =>
+        {
+            _commandLineParser.Parse();
+        });
+        
         // Run TcpServer in another thread
         await _listener.Listen();
 
 
-            // Poll the console for commands
-        if (Environment.GetEnvironmentVariable("ENV") != "PRODUCTION")
-        {
-            Console.WriteLine("Type /help for a list of commands");
-            var thread = Task.Run(() =>
-            {
-                _commandLineParser.Parse();
-            });
-        }
+
+        //     // Poll the console for commands
+        // if (Environment.GetEnvironmentVariable("ENV") != "PRODUCTION")
+        // {
+
+        // }
     }
 }

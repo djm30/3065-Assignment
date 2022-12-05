@@ -34,6 +34,9 @@ export class ServiceURLS {
         let parsed = await data.json();
         this.proxy = parsed["proxy_urls"];
         this.routes = parsed["service_routes"];
+
+        // Choosing a random proxy
+        this.currProxy = Math.random() * this.proxy.length;
     }
 
     private constructor() {}

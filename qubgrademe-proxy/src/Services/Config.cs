@@ -68,7 +68,7 @@ public class Config : IConfig
         try
         {
             var config = JsonConvert.DeserializeObject<ConfigSchema>(raw);
-            Console.WriteLine(raw);
+            // Console.WriteLine(raw);
             ValidateConfig(config);
 
             routeMaps = new Dictionary<string, string>();

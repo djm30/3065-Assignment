@@ -46,8 +46,6 @@ public class MonitoringServiceTest
         monitoringService.GetMonitorDataSync().Should().HaveCount(1);
         // Asserts it raises an event
         monitoredServices.Should().Raise("ServiceStatusChanged");
-
-
     }
     
     [Fact]

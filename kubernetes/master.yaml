@@ -67,21 +67,14 @@ data:
           "expected_result": "{\"message\":\"OK\"}"
         },
         {
-          "name": "Proxy 1",
+          "name": "Proxy",
           "query_string" : "",
           "urls": [
-            "http://proxy1.40265748.qpc.hal.davecutting.uk/health"
-          ],
-          "expected_result": "{\"Message\":\"OK\"}"
-        },
-        {
-          "name": "Proxy 2",
-          "query_string" : "",
-          "urls": [
+            "http://proxy1.40265748.qpc.hal.davecutting.uk/health",
             "http://proxy2.40265748.qpc.hal.davecutting.uk/health"
           ],
           "expected_result": "{\"Message\":\"OK\"}"
-        }
+        },
       ]
     }
 
