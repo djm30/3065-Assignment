@@ -19,15 +19,13 @@ public static class CreateSession
     public static async Task<IActionResult> RunAsync(
         [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req, ILogger log)
     {
-        log.LogInformation("C# HTTP trigger function processed a request.");
-
         try
         {
             await using var service = SqlConnectionService.GetConnection();
             var guid = Guid.NewGuid();
             var sql = $"INSERT INTO dbo.Data (SessionId, Data) VALUES ('{guid}', '')";
             await service.ExecuteAsync(sql);
-        
+
             return new OkObjectResult(new CreateSessionSchema()
             {
                 SessionId = guid
